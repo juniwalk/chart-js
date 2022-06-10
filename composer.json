@@ -1,0 +1,19 @@
+{
+	"name": "juniwalk/chart-js",
+	"license": "MIT",
+
+	"authors": [{
+		"name": "Martin Procházka",
+		"email": "juniwalk@outlook.cz"
+	}],
+
+	"autoload": {
+		"psr-4": {"JuniWalk\\ChartJS\\": "src/"}
+	},
+
+	"require": {
+		"php": ">=8.0",
+		"juniwalk/utils": "^1.0",
+		"nette/application": "^3.0"
+	}
+}
