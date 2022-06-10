@@ -12,6 +12,12 @@ use Nette\Application\UI\Control;
 
 final class Chart extends Control
 {
+	/** @var string */
+	private $title;
+
+	/** @var string */
+	private $color;
+
 	/** @var Type */
 	private $type;
 
@@ -33,6 +39,25 @@ final class Chart extends Control
 	{
 		$this->type = $type;
 		$this->options = $options;
+	}
+
+
+	/**
+	 * @param  string|null  $title
+	 * @return void
+	 */
+	public function setTitle(?string $title): void
+	{
+		$this->title = $title;
+	}
+
+
+	/**
+	 * @return string|null
+	 */
+	public function getTitle(): ?string
+	{
+		return $this->title;
 	}
 
 
@@ -106,10 +131,9 @@ final class Chart extends Control
 		$template->setFile(__DIR__.'/templates/default.latte');
 		$template->add('controlName', $this->getName());
 		$template->add('config', $this->createConfig());
+		$template->add('title', $this->title);
+		$template->add('color', $this->color ?? 'secondary');
 		$template->add('type', $this->type);
-
-		$template->add('title', 'This is my first chart!');
-		$template->add('color', 'primary');
 
 		// any onBeforeRender callbacks?
 
