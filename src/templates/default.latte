@@ -1,0 +1,20 @@
+<div class="card card-{$color} card-outline">
+
+	<div class="card-header with-border">
+		<h3 class="card-title">{$title}</h3>
+	</div>
+
+	<div class="card-body">
+		<div class="chart-responsive">
+			<canvas id="chart-{$controlName}" style="height: 300px;"></canvas>
+		</div>
+	</div>
+
+	<script type="text/javascript" defer>
+	document.addEventListener("DOMContentLoaded", function() {
+		var context = $("#chart-"+{$controlName}).get(0).getContext('2d');
+		var chart = new Chart(context, {$config});
+	});
+	</script>
+
+</div>
