@@ -19,10 +19,12 @@ final class Dataset
 
 
 	/**
+	 * @param  string  $label
 	 * @param  string[]  $data
 	 */
-	public function __construct(iterable $data)
+	public function __construct(string $label, iterable $data)
 	{
+		$this->setOption('label', $label);
 		$this->data = $data;
 	}
 
