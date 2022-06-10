@@ -27,6 +27,16 @@ trait Optionable
 
 
 	/**
+	 * @param  mixed[]  $options
+	 * @return void
+	 */
+	public function setOptions(iterable $options): void
+	{
+		$this->options = $options;
+	}
+
+
+	/**
 	 * @param  string  $key
 	 * @return mixed
 	 */

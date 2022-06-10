@@ -32,12 +32,10 @@ final class Chart extends Control
 
 	/**
 	 * @param  Type  $type
-	 * @param  string[]  $options
 	 */
-	public function __construct(string $type, iterable $options = [])
+	public function __construct(string $type)
 	{
 		$this->type = $type;
-		$this->options = $options;
 	}
 
 
