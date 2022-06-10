@@ -9,6 +9,7 @@ namespace JuniWalk\ChartJS;
 
 use JuniWalk\ChartJS\Attributes\Optionable;
 use Nette\Application\UI\Control;
+use Nette\Localization\ITranslator;
 
 final class Chart extends Control
 {
@@ -26,15 +27,20 @@ final class Chart extends Control
 	/** @var Dataset[] */
 	private $datasets = [];
 
+	/** @var ITranslator */
+	private $translator;
+
 	/** @var string[] */
 	private $labels = [];
 
 
 	/**
 	 * @param  Type  $type
+	 * @param  ITranslator  $translator
 	 */
-	public function __construct(string $type)
+	public function __construct(string $type, ITranslator $translator)
 	{
+		$this->translator = $translator;
 		$this->type = $type;
 	}
 
@@ -122,16 +128,25 @@ final class Chart extends Control
 	 */
 	public function createConfig(): iterable
 	{
-		$datasets = [];
+		$translate = [$this->translator, 'translate'];
+		$datasets = $labels = [];
 
 		foreach ($this->datasets as $key => $dataset) {
 			$datasets[$key] = $dataset->createConfig();
+
+			if (isset($datasets[$key]['label'])) {
+				$datasets[$key]['label'] = $translate($datasets[$key]['label']);
+			}
+		}
+
+		foreach ($this->labels as $key => $value) {
+			$labels[$key] = $translate($value);
 		}
 
 		return [
 			'type' => $this->type,
 			'data' => [
-				'labels' => $this->labels,
+				'labels' => $labels,
 				'datasets' => $datasets,
 			],
 			'options' => $this->getOptions(),
