@@ -7,11 +7,13 @@
 
 namespace JuniWalk\ChartJS;
 
-use JuniWalk\Utils\Arrays;
+use JuniWalk\ChartJS\Attributes\Optionable;
 use Nette\Application\UI\Control;
 
 final class Chart extends Control
 {
+	use Optionable;
+
 	/** @var string */
 	private $title;
 
@@ -21,14 +23,11 @@ final class Chart extends Control
 	/** @var Type */
 	private $type;
 
-	/** @var string[] */
-	private $labels = [];
-
-	/** @var Dataset */
+	/** @var Dataset[] */
 	private $datasets = [];
 
 	/** @var string[] */
-	private $options = [];
+	private $labels = [];
 
 
 	/**
@@ -102,27 +101,6 @@ final class Chart extends Control
 
 
 	/**
-	 * @param  string  $key
-	 * @param  mixed  $value
-	 * @return void
-	 */
-	public function setOption(string $key, $value): void
-	{
-		$this->options[$key] = $value;
-	}
-
-
-	/**
-	 * @param  string  $key
-	 * @return mixed
-	 */
-	public function getOption(string $key)//: mixed
-	{
-		return $this->options[$key] ?? null;
-	}
-
-
-	/**
 	 * @return void
 	 */
 	public function render(): void
@@ -158,7 +136,7 @@ final class Chart extends Control
 				'labels' => $this->labels,
 				'datasets' => $datasets,
 			],
-			'options' => Arrays::unflatten($this->options),
+			'options' => $this->getOptions(),
 		];
 	}
 }
