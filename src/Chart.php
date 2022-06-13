@@ -38,10 +38,19 @@ final class Chart extends Control
 	 * @param  Type  $type
 	 * @param  ITranslator  $translator
 	 */
-	public function __construct(string $type, ITranslator $translator)
+	public function __construct(string $type)
+	{
+		$this->type = $type;
+	}
+
+
+	/**
+	 * @param  ITranslator  $translator
+	 * @return void
+	 */
+	public function setTranslator(ITranslator  $translator): void
 	{
 		$this->translator = $translator;
-		$this->type = $type;
 	}
 
 
