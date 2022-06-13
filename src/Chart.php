@@ -133,6 +133,11 @@ final class Chart extends Control
 
 		foreach ($this->datasets as $key => $dataset) {
 			$datasets[$key] = $dataset->createConfig();
+			$datasetLabels = $dataset->getLabels();
+
+			if ($datasetLabels && sizeof($datasetLabels) > sizeof($labels)) {
+				$labels = $datasetLabels;
+			}
 
 			if (isset($datasets[$key]['label'])) {
 				$datasets[$key]['label'] = $translate($datasets[$key]['label']);

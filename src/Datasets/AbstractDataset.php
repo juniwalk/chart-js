@@ -14,14 +14,27 @@ abstract class AbstractDataset implements Dataset
 {
 	use Optionable;
 
+	/** @var string[] */
+	private $labels = [];
+
+
+	/**
+	 * @return string[]
+	 */
+	public function getLabels(): iterable
+	{
+		return array_values($this->labels);
+	}
+
 
 	/**
 	 * @return string[]
 	 */
 	public function createConfig(): iterable
 	{
+		$data = $this->parseData($this->fetchData());
 		return array_merge($this->getOptions(), [
-			'data' => $this->fetchData(),
+			'data' => $data,
 		]);
 	}
 
@@ -30,4 +43,26 @@ abstract class AbstractDataset implements Dataset
 	 * @return string[]
 	 */
 	abstract protected function fetchData(): iterable;
+
+
+	/**
+	 * @param  string[]  $data
+	 * @return string[]
+	 */
+	protected function parseData(iterable $data): iterable
+	{
+		$this->labels = $result = [];
+
+		foreach ($data as $item) {
+			if (!is_array($item)) {
+				$result[] = $item;
+				continue;
+			}
+
+			$this->labels[] = $item['key'];
+			$result[] = $item['value'];
+		}
+
+		return $result;
+	}
 }
