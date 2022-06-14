@@ -8,8 +8,9 @@
 namespace JuniWalk\ChartJS;
 
 use JuniWalk\ChartJS\Attributes\Optionable;
+use JuniWalk\ChartJS\Enums\Type;
 use Nette\Application\UI\Control;
-use Nette\Localization\ITranslator;
+use Nette\Localization\ITranslator as Translator;
 
 final class Chart extends Control
 {
@@ -24,10 +25,10 @@ final class Chart extends Control
 	/** @var Type */
 	private $type;
 
-	/** @var Dataset[] */
-	private $datasets = [];
+	/** @var Datasource */
+	private $datasource;
 
-	/** @var ITranslator */
+	/** @var Translator */
 	private $translator;
 
 	/** @var string[] */
@@ -36,19 +37,21 @@ final class Chart extends Control
 
 	/**
 	 * @param  Type  $type
-	 * @param  ITranslator  $translator
+	 * @param  string[]  $options
 	 */
-	public function __construct(string $type)
+	public function __construct(string $type, iterable $options = [])
 	{
+		$this->datasource = new Datasource;
+		$this->options = $options;
 		$this->type = $type;
 	}
 
 
 	/**
-	 * @param  ITranslator  $translator
+	 * @param  Translator  $translator
 	 * @return void
 	 */
-	public function setTranslator(ITranslator  $translator): void
+	public function setTranslator(Translator $translator): void
 	{
 		$this->translator = $translator;
 	}
@@ -104,12 +107,23 @@ final class Chart extends Control
 
 
 	/**
+	 * @param  Datasource  $datasource
+	 * @return void
+	 */
+	public function setDatasource(Datasource $datasource): void
+	{
+		$this->datasource = $datasource;
+	}
+
+
+	/**
+	 * @param  string  $key
 	 * @param  Dataset  $dataset
 	 * @return void
 	 */
-	public function addDataset(Dataset $dataset): void
+	public function setDataset(string $key, Dataset $dataset): void
 	{
-		$this->datasets[] = $dataset;
+		$this->datasource->setDataset($key, $dataset);
 	}
 
 
@@ -137,32 +151,13 @@ final class Chart extends Control
 	 */
 	public function createConfig(): iterable
 	{
-		$translate = [$this->translator, 'translate'];
-		$datasets = $labels = [];
-
-		foreach ($this->datasets as $key => $dataset) {
-			$datasets[$key] = $dataset->createConfig();
-			$datasetLabels = $dataset->getLabels();
-
-			if ($datasetLabels && sizeof($datasetLabels) > sizeof($labels)) {
-				$labels = $datasetLabels;
-			}
-
-			if (isset($datasets[$key]['label'])) {
-				$datasets[$key]['label'] = $translate($datasets[$key]['label']);
-			}
-		}
-
-		foreach ($this->labels as $key => $value) {
-			$labels[$key] = $translate($value);
+		if ($this->translator instanceof Translator) {
+			$this->datasource->setTranslator($this->translator);
 		}
 
 		return [
 			'type' => $this->type,
-			'data' => [
-				'labels' => $labels,
-				'datasets' => $datasets,
-			],
+			'data' => $this->datasource->createConfig(),
 			'options' => $this->getOptions(),
 		];
 	}
