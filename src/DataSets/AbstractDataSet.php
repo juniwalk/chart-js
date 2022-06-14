@@ -5,12 +5,12 @@
  * @license   MIT License
  */
 
-namespace JuniWalk\ChartJS\Datasets;
+namespace JuniWalk\ChartJS\DataSets;
 
 use JuniWalk\ChartJS\Attributes\Optionable;
-use JuniWalk\ChartJS\Dataset;
+use JuniWalk\ChartJS\DataSet;
 
-abstract class AbstractDataset implements Dataset
+abstract class AbstractDataSet implements DataSet
 {
 	use Optionable;
 

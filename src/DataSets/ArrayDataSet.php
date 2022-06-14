@@ -5,9 +5,9 @@
  * @license   MIT License
  */
 
-namespace JuniWalk\ChartJS\Datasets;
+namespace JuniWalk\ChartJS\DataSets;
 
-final class ArrayDataset extends AbstractDataset
+final class ArrayDataSet extends AbstractDataSet
 {
 	/** @var string[] */
 	private $data = [];

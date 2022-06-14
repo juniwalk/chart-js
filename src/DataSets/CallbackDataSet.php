@@ -5,9 +5,9 @@
  * @license   MIT License
  */
 
-namespace JuniWalk\ChartJS\Datasets;
+namespace JuniWalk\ChartJS\DataSets;
 
-final class CallbackDataset extends AbstractDataset
+final class CallbackDataSet extends AbstractDataSet
 {
 	/** @var callable */
 	private $callback;

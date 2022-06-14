@@ -7,7 +7,7 @@
 
 namespace JuniWalk\ChartJS;
 
-interface Dataset
+interface DataSet
 {
 	/**
 	 * @return string[]

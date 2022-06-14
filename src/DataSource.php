@@ -7,16 +7,15 @@
 
 namespace JuniWalk\ChartJS;
 
-use JuniWalk\ChartJS\Datasets\ArrayDataset;
 use Nette\Localization\ITranslator as Translator;
 
-class Datasource
+class DataSource
 {
 	/** @var string[] */
 	protected $labels = [];
 
-	/** @var Dataset[] */
-	protected $datasets = [];
+	/** @var DataSet[] */
+	protected $dataSets = [];
 
 	/** @var Translator */
 	protected $translator;
@@ -43,23 +42,23 @@ class Datasource
 
 
 	/**
-	 * @param  string  $label
-	 * @param  mixed[]  $data
-	 * @return Dataset
+	 * @param  string  $name
+	 * @param  DataSet  $dataSet
+	 * @return void
 	 */
-	public function setDataset(string $name, Dataset $dataset): Dataset
+	public function setDataSet(string $name, DataSet $dataSet): void
 	{
-		return $this->datasets[$name] = $dataset;
+		$this->dataSets[$name] = $dataSet;
 	}
 
 
 	/**
 	 * @param  int|string  $key
-	 * @return Dataset|null
+	 * @return DataSet|null
 	 */
-	public function getDataset(int|string $key): ?Dataset
+	public function getDataset(int|string $key): ?DataSet
 	{
-		return $this->datasets[$key] ?? null;
+		return $this->dataSets[$key] ?? null;
 	}
 
 
@@ -70,8 +69,8 @@ class Datasource
 	{
 		$config = ['labels' => [],'datasets' => []];
 
-		foreach ($this->datasets as $dataset) {
-			$result = $dataset->createConfig();
+		foreach ($this->dataSets as $dataSet) {
+			$result = $dataSet->createConfig();
 			$result['data'] = $this->parse($result['data']);
 
 			if (isset($result['label'])) {

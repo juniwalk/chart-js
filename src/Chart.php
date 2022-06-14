@@ -25,8 +25,8 @@ final class Chart extends Control
 	/** @var Type */
 	private $type;
 
-	/** @var Datasource */
-	private $datasource;
+	/** @var DataSource */
+	private $dataSource;
 
 	/** @var Translator */
 	private $translator;
@@ -41,7 +41,7 @@ final class Chart extends Control
 	 */
 	public function __construct(string $type, iterable $options = [])
 	{
-		$this->datasource = new Datasource;
+		$this->dataSource = new DataSource;
 		$this->options = $options;
 		$this->type = $type;
 	}
@@ -107,23 +107,23 @@ final class Chart extends Control
 
 
 	/**
-	 * @param  Datasource  $datasource
+	 * @param  DataSource  $dataSource
 	 * @return void
 	 */
-	public function setDatasource(Datasource $datasource): void
+	public function setDataSource(DataSource $dataSource): void
 	{
-		$this->datasource = $datasource;
+		$this->dataSource = $dataSource;
 	}
 
 
 	/**
 	 * @param  string  $key
-	 * @param  Dataset  $dataset
+	 * @param  DataSet  $dataSet
 	 * @return void
 	 */
-	public function setDataset(string $key, Dataset $dataset): void
+	public function setDataSet(string $key, DataSet $dataSet): void
 	{
-		$this->datasource->setDataset($key, $dataset);
+		$this->dataSource->setDataSet($key, $dataSet);
 	}
 
 
@@ -152,12 +152,12 @@ final class Chart extends Control
 	public function createConfig(): iterable
 	{
 		if ($this->translator instanceof Translator) {
-			$this->datasource->setTranslator($this->translator);
+			$this->dataSource->setTranslator($this->translator);
 		}
 
 		return [
 			'type' => $this->type,
-			'data' => $this->datasource->createConfig(),
+			'data' => $this->dataSource->createConfig(),
 			'options' => $this->getOptions(),
 		];
 	}
