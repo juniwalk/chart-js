@@ -22,10 +22,10 @@ class DataSource
 
 
 	/**
-	 * @param  Translator  $translator
+	 * @param  Translator|null  $translator
 	 * @return void
 	 */
-	public function setTranslator(Translator $translator): void
+	public function setTranslator(?Translator $translator): void
 	{
 		$this->translator = $translator;
 	}
