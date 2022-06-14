@@ -31,9 +31,6 @@ final class Chart extends Control
 	/** @var Translator */
 	private $translator;
 
-	/** @var string[] */
-	private $labels = [];
-
 
 	/**
 	 * @param  Type  $type
@@ -97,22 +94,22 @@ final class Chart extends Control
 
 
 	/**
-	 * @param  string[]  $labels
-	 * @return void
-	 */
-	public function setLabels(iterable $labels): void
-	{
-		$this->labels = $labels;
-	}
-
-
-	/**
 	 * @param  DataSource  $dataSource
 	 * @return void
 	 */
 	public function setDataSource(DataSource $dataSource): void
 	{
 		$this->dataSource = $dataSource;
+	}
+
+
+	/**
+	 * @param  string[]  $labels
+	 * @return void
+	 */
+	public function setLabels(iterable $labels): void
+	{
+		$this->dataSource->setLabels($labels);
 	}
 
 
