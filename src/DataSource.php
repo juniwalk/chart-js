@@ -8,6 +8,7 @@
 namespace JuniWalk\ChartJS;
 
 use Nette\Localization\ITranslator as Translator;
+use Nette\Utils\Strings;
 
 class DataSource
 {
@@ -95,6 +96,10 @@ class DataSource
 	protected function translate(string $value): string
 	{
 		if (!$this->translator instanceof Translator) {
+			return $value;
+		}
+
+		if (!Strings::match($value, '/^([a-z][a-z0-9]+)\.([a-z][a-z0-9\.]+)$/i')) {
 			return $value;
 		}
 
