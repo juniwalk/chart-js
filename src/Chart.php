@@ -74,6 +74,25 @@ final class Chart extends Control
 
 
 	/**
+	 * @param  string|null  $color
+	 * @return void
+	 */
+	public function setColor(?string $color): void
+	{
+		$this->color = $color;
+	}
+
+
+	/**
+	 * @return string|null
+	 */
+	public function getColor(): ?string
+	{
+		return $this->color;
+	}
+
+
+	/**
 	 * @param  Type  $type
 	 * @return void
 	 */
