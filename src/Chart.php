@@ -8,6 +8,7 @@
 namespace JuniWalk\ChartJS;
 
 use JuniWalk\ChartJS\Attributes\Optionable;
+use JuniWalk\ChartJS\Attributes\Toolable;
 use JuniWalk\ChartJS\Enums\Type;
 use Nette\Application\UI\Control;
 use Nette\Localization\ITranslator as Translator;
@@ -15,21 +16,22 @@ use Nette\Localization\ITranslator as Translator;
 final class Chart extends Control
 {
 	use Optionable;
+	use Toolable;
 
 	/** @var string */
-	private $title;
+	protected $title;
 
 	/** @var string */
-	private $color;
+	protected $color;
 
 	/** @var Type */
-	private $type;
+	protected $type;
 
 	/** @var DataSource */
-	private $dataSource;
+	protected $dataSource;
 
 	/** @var Translator */
-	private $translator;
+	protected $translator;
 
 
 	/**
@@ -154,6 +156,7 @@ final class Chart extends Control
 		$template->add('config', $this->createConfig());
 		$template->add('title', $this->title);
 		$template->add('color', $this->color ?? 'secondary');
+		$template->add('tools', $this->tools);
 		$template->add('type', $this->type);
 
 		// any onBeforeRender callbacks?

@@ -12,7 +12,7 @@ use JuniWalk\Utils\Arrays;
 trait Optionable
 {
 	/** @var string[] */
-	private $options = [];
+	protected $options = [];
 
 
 	/**

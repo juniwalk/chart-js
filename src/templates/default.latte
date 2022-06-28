@@ -1,7 +1,13 @@
 <div class="card card-{$color} card-outline">
 
 	<div class="card-header with-border" n:if="$title">
+
 		<h3 class="card-title">{$title|translate|noescape}</h3>
+
+		<div class="card-tools btn-toolbar mt-n1" n:ifcontent n:inner-foreach="$tools as $tool">
+			{$tool->render()}
+		</div>
+
 	</div>
 
 	<div class="card-body">
