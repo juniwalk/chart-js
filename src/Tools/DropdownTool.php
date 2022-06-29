@@ -58,7 +58,6 @@ final class DropdownTool extends AbstractTool
 		foreach ($this->tools as $tool) {
 			if ($tool instanceof AbstractTool) {
 				$tool->withClass('dropdown-item');
-				$tool->setAjax();
 			}
 
 			$dm->addHtml($tool->render());
