@@ -9,9 +9,7 @@ namespace JuniWalk\ChartJS\Attributes;
 
 use JuniWalk\ChartJS\Chart;
 use JuniWalk\ChartJS\Tool;
-use JuniWalk\ChartJS\Tools\DropdownTool;
-use JuniWalk\ChartJS\Tools\GroupTool;
-use JuniWalk\ChartJS\Tools\LinkTool;
+use JuniWalk\ChartJS\Tools;
 
 trait Toolable
 {
@@ -24,11 +22,11 @@ trait Toolable
 
 	/**
 	 * @param  Tool  $tool
-	 * @return void
+	 * @return Tool
 	 */
-	public function addTool(Tool $tool): void
+	public function addTool(Tool $tool): Tool
 	{
-		$this->tools[] = $tool;
+		return $this->tools[] = $tool;
 	}
 
 
@@ -38,26 +36,36 @@ trait Toolable
 	 * @param  string[]  $params
 	 * @return LinkTool
 	 */
-	public function addLinkTool(string $href, string $name, iterable $params = []): LinkTool
+	public function addLinkTool(string $href, string $name, iterable $params = []): Tool
 	{
-		return $this->tools[] = new LinkTool($this->chart ?: $this, $href, $name, $params);
+		$tool = new Tools\LinkTool($this->chart ?: $this);
+		$tool->setLabel($name);
+		$tool->setHref($href);
+		$tool->setParams($params);
+
+		return $this->addTool($tool);
 	}
 
 
 	/**
 	 * @return DropdownTool
 	 */
-	public function addDropdownTool(string $name): DropdownTool
+	public function addDropdownTool(string $name): Tool
 	{
-		return $this->tools[] = new DropdownTool($this->chart ?: $this, $name);
+		$tool = new Tools\DropdownTool($this->chart ?: $this);
+		$tool->setLabel($name);
+
+		return $this->addTool($tool);
 	}
 
 
 	/**
 	 * @return GroupTool
 	 */
-	public function addGroupTool(): GroupTool
+	public function addGroupTool(): Tool
 	{
-		return $this->tools[] = new GroupTool($this->chart ?: $this);
+		$tool = new Tools\GroupTool($this->chart ?: $this);
+
+		return $this->addTool($tool);
 	}
 }

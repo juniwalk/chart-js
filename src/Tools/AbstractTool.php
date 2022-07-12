@@ -9,6 +9,7 @@ namespace JuniWalk\ChartJS\Tools;
 
 use JuniWalk\ChartJS\Chart;
 use JuniWalk\ChartJS\Tool;
+use Nette\Utils\Html;
 
 abstract class AbstractTool implements Tool
 {
@@ -19,41 +20,122 @@ abstract class AbstractTool implements Tool
 	protected $label;
 
 	/** @var string */
-	protected $class = 'btn btn-sm btn-secondary';
-
-	/** @var string */
 	protected $icon;
+
+	/** @var bool */
+	protected $isActive = false;
+
+	/** @var string[] */
+	protected $attributes = [
+		'class' => ['btn', 'btn-sm', 'btn-secondary'],
+	];
 
 
 	/**
-	 * @param  string  $label
-	 * @return static
+	 * @param Chart  $chart
 	 */
-	public function withLabel(string $label): self
+	final public function __construct(Chart $chart)
 	{
-		$this->label = $label;
-		return $this;
+		$this->chart = $chart;
 	}
 
 
 	/**
-	 * @param  string  $class
-	 * @return static
+	 * @param  string|null  $label
+	 * @return void
 	 */
-	public function withClass(string $class): self
+	public function setLabel(?string $label): void
 	{
-		$this->class = $class;
-		return $this;
+		$this->label = $label;
+	}
+
+
+	/**
+	 * @return string|null
+	 */
+	public function getLabel(): ?string
+	{
+		return $this->label;
 	}
 
 
 	/**
 	 * @param  string|null  $icon
-	 * @return static
+	 * @return void
 	 */
-	public function withIcon(?string $icon): self
+	public function setIcon(?string $icon): void
 	{
 		$this->icon = $icon ?: null;
-		return $this;
+	}
+
+
+	/**
+	 * @param  string|null  $icon
+	 * @return void
+	 */
+	public function getIcon(): ?string
+	{
+		return $this->icon;
+	}
+
+
+	/**
+	 * @param  string  $class
+	 * @return void
+	 */
+	public function setClass(string $class): void
+	{
+		$this->attributes['class'] = $class;
+	}
+
+
+	/**
+	 * @param  string  $class
+	 * @return void
+	 */
+	public function addClass(string $class): void
+	{
+		$this->attributes['class'][] = $class;
+	}
+
+
+	/**
+	 * @param  bool  $isActive
+	 * @return void
+	 */
+	public function setActive(bool $isActive): void
+	{
+		$this->isActive = $isActive;
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isActive(): bool
+	{
+		return $this->isActive;
+	}
+
+
+	/**
+	 * @return Html
+	 */
+	protected function createButton(): Html
+	{
+		$translator = $this->chart->getTranslator();
+		$el = Html::el('a', $this->attributes);
+
+		if ($this->icon) {
+			$icon = Html::el('i')->setClass($this->icon);
+			$el->setHtml($icon)->addText(' ');
+		}
+
+		if ($this->isActive) {
+			$el->addClass('active');
+		}
+
+		$el->addText($translator->translate($this->label));
+		return $el;
 	}
 }

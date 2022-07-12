@@ -7,40 +7,63 @@
 
 namespace JuniWalk\ChartJS\Tools;
 
-use JuniWalk\ChartJS\Attributes\Linkable;
-use JuniWalk\ChartJS\Chart;
+use Nette\Application\UI\Component;
+use Nette\Application\UI\InvalidLinkException;
 use Nette\Utils\Html;
+use Nette\Utils\Strings;
 
 final class LinkTool extends AbstractTool
 {
-	use Linkable;
+	/** @var string */
+	protected $href;
+
+	/** @var string[] */
+	protected $params;
 
 	/** @var bool */
-	protected $isActive = false;
+	protected $isNewTab = false;
+
+	/** @var bool */
+	protected $isAjax = false;
 
 
 	/**
-	 * @param Chart  $chart
-	 * @param string  $href
-	 * @param string  $label
-	 * @param string[]  $params
+	 * @param  string  $href
+	 * @return void
 	 */
-	public function __construct(Chart $chart, string $href, string $label, iterable $params = [])
+	public function setHref(string $href): void
 	{
-		$this->chart = $chart;
-		$this->label = $label;
 		$this->href = $href;
+	}
+
+
+	/**
+	 * @param  string[]  $params
+	 * @return void
+	 */
+	public function setParams(iterable $params = []): void
+	{
 		$this->params = $params;
 	}
 
 
 	/**
-	 * @param  bool  $isActive
+	 * @param  bool  $isAjax
 	 * @return void
 	 */
-	public function setActive(bool $isActive): void
+	public function setAjax(bool $isAjax = true): void
 	{
-		$this->isActive = $isActive;
+		$this->isAjax = $isAjax;
+	}
+
+
+	/**
+	 * @param  bool  $isAjax
+	 * @return void
+	 */
+	public function setNewTab(bool $isNewTab = true): void
+	{
+		$this->isNewTab = $isNewTab;
 	}
 
 
@@ -49,33 +72,55 @@ final class LinkTool extends AbstractTool
 	 */
 	public function render(): Html
 	{
-		$link = $this->createLink($this->chart, $this->href, $this->params);
-
-		$el = Html::el('a');
-		$el->setHref($link);
-		$el->addClass($this->class);
+		$el = $this->createButton();
+		$el->setHref($this->createLink());
 
 		if ($this->isAjax) {
 			$el->addClass('ajax');
-		}
-
-		if ($this->isActive) {
-			$el->addClass('active');
 		}
 
 		if ($this->isNewTab) {
 			$el->setTarget('_blank');
 		}
 
-		if ($this->icon) {
-			$i = Html::el('i');
-			$i->setClass($this->icon);
+		return $el;
+	}
 
-			$el->addHtml($i);
-			$el->addText(' ');
+
+	/**
+	 * @return string
+	 * @throws InvalidLinkException
+	 */
+	private function createLink(): string
+	{
+		$presenter = $this->chart->getPresenter();
+		$component = $this->chart;
+
+		if (strpos($this->href, ':') !== false) {
+			return $presenter->link($this->href, $this->params);
 		}
 
-		$el->addText($this->label);
-		return $el;
+		for ($iteration = 0; $iteration < 10; $iteration++) {
+			$component = $component->getParent();
+
+			if (!$component instanceof Component) {
+				break;
+			}
+
+			try {
+				$link = $component->link($this->href, $this->params);
+
+			} catch (InvalidLinkException $e) {
+				continue;
+			}
+
+			if (Strings::match($link, '/^\#error\:/i')) {
+				continue;
+			}
+
+			return $link;
+		}
+
+		throw new InvalidLinkException;
 	}
 }

@@ -18,20 +18,20 @@ final class Chart extends Control
 	use Optionable;
 	use Toolable;
 
+	/** @var Translator */
+	protected $translator;
+
+	/** @var DataSource */
+	protected $dataSource;
+
+	/** @var Type */
+	protected $type;
+
 	/** @var string */
 	protected $title;
 
 	/** @var string */
 	protected $color;
-
-	/** @var Type */
-	protected $type;
-
-	/** @var DataSource */
-	protected $dataSource;
-
-	/** @var Translator */
-	protected $translator;
 
 
 	/**
@@ -53,6 +53,15 @@ final class Chart extends Control
 	public function setTranslator(?Translator $translator): void
 	{
 		$this->translator = $translator;
+	}
+
+
+	/**
+	 * @return Translator|null
+	 */
+	public function getTranslator(): ?Translator
+	{
+		return $this->translator;
 	}
 
 
