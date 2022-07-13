@@ -15,5 +15,9 @@
 		"php": ">=8.0",
 		"juniwalk/utils": "^1.0",
 		"nette/application": "^3.0"
+	},
+
+	"require-dev": {
+		"nette/tester": "^2.0"
 	}
 }
