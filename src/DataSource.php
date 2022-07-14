@@ -7,7 +7,7 @@
 
 namespace JuniWalk\ChartJS;
 
-use Nette\Localization\ITranslator as Translator;
+use Nette\Localization\Translator;
 use Nette\Utils\Strings;
 
 class DataSource

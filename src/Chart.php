@@ -11,7 +11,7 @@ use JuniWalk\ChartJS\Attributes\Optionable;
 use JuniWalk\ChartJS\Attributes\Toolable;
 use JuniWalk\ChartJS\Enums\Type;
 use Nette\Application\UI\Control;
-use Nette\Localization\ITranslator as Translator;
+use Nette\Localization\Translator;
 
 final class Chart extends Control
 {
