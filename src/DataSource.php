@@ -54,12 +54,12 @@ class DataSource
 
 
 	/**
-	 * @param  int|string  $key
+	 * @param  string  $name
 	 * @return DataSet|null
 	 */
-	public function getDataset(int|string $key): ?DataSet
+	public function getDataset(string $name): ?DataSet
 	{
-		return $this->dataSets[$key] ?? null;
+		return $this->dataSets[$name] ?? null;
 	}
 
 
