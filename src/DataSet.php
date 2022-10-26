@@ -13,4 +13,7 @@ interface DataSet
 	 * @return string[]
 	 */
 	public function createConfig(): iterable;
+
+
+	public function getAverage(): float;
 }

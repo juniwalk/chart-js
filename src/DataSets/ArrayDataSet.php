@@ -31,4 +31,10 @@ final class ArrayDataSet extends AbstractDataSet
 	{
 		return $this->data;
 	}
+
+
+	public function getAverage(): float
+	{
+		return array_sum($this->data) / sizeof($this->data);
+	}
 }

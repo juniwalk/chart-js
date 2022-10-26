@@ -29,4 +29,10 @@ abstract class AbstractDataSet implements DataSet
 	 * @return string[]
 	 */
 	abstract protected function fetchData(): iterable;
+
+
+	public function getAverage(): float
+	{
+		return 0;
+	}
 }

@@ -10,6 +10,7 @@ namespace JuniWalk\ChartJS;
 use JuniWalk\ChartJS\Attributes\Optionable;
 use JuniWalk\ChartJS\Attributes\Toolable;
 use JuniWalk\ChartJS\Enums\Type;
+use JuniWalk\Utils\Strings;
 use Nette\Application\UI\Control;
 use Nette\Localization\Translator;
 
@@ -151,6 +152,43 @@ final class Chart extends Control
 	public function setDataSet(string $key, DataSet $dataSet): void
 	{
 		$this->dataSource->setDataSet($key, $dataSet);
+	}
+
+
+	/**
+	 * @param  DataSet  $dataSet
+	 * @param  callable|null  $label
+	 * @return void
+	 */
+	public function addAverage(DataSet $dataSet, callable $label = null): void
+	{
+		$name = Strings::webalize($dataSet->getOption('label'));
+		$color = 'rgba(128, 128, 128, 0.8)';
+
+		if (!$average = $dataSet->getAverage()) {
+			return;
+		}
+
+		$annotation = [
+			'type' => 'line',
+			'value' => $average,
+			'scaleID' => 'y',
+			'borderColor' => $color,
+			'borderDash' => [6, 6],
+			'borderDashOffset' => 0,
+			'borderWidth' => 2,
+		];
+
+		if (!is_null($label)) {
+			$annotation['label'] = [
+				'content' => $label($average),
+				'backgroundColor' => $color,
+				'position' => 'end',
+				'display' => true,
+			];
+		}
+
+		$this->setOption('plugins.annotation.annotations.'.$name, $annotation);
 	}
 
 
