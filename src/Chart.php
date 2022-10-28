@@ -7,24 +7,24 @@
 
 namespace JuniWalk\ChartJS;
 
+use JuniWalk\ChartJS\Plugins\AveragePlugin;
 use JuniWalk\ChartJS\Enums\Type;
-use JuniWalk\ChartJS\Traits\Optionable;
-use JuniWalk\ChartJS\Traits\Toolable;
+use JuniWalk\ChartJS\Traits;
 use JuniWalk\Utils\Enums\Color;
-use JuniWalk\Utils\Strings;
+use JuniWalk\Utils\Arrays;
 use Nette\Application\UI\Control;
-use Nette\Localization\Translator;
 
 final class Chart extends Control
 {
-	use Optionable;
-	use Toolable;
+	use Traits\Optionable;
+	use Traits\Translatable;
+	use Traits\Toolable;
 
-	protected ?Translator $translator = null;
 	protected DataSource $dataSource;
 	protected Type $type;
 	protected ?Color $color = null;
 	protected ?string $title = null;
+	protected array $plugins = [];
 
 
 	public function __construct(Type $type, array $options = [])
@@ -32,18 +32,6 @@ final class Chart extends Control
 		$this->dataSource = new DataSource;
 		$this->options = $options;
 		$this->type = $type;
-	}
-
-
-	public function setTranslator(?Translator $translator): void
-	{
-		$this->translator = $translator;
-	}
-
-
-	public function getTranslator(): ?Translator
-	{
-		return $this->translator;
 	}
 
 
@@ -101,35 +89,21 @@ final class Chart extends Control
 	}
 
 
-	public function addAverage(DataSet $dataSet, callable $label = null): void
+	public function addPlugin(Plugin $plugin): void
 	{
-		$name = Strings::webalize($dataSet->getOption('label'));
-		$color = 'rgba(128, 128, 128, 0.8)';
-
-		if (!$average = $dataSet->getAverage()) {
-			return;
+		$path = $plugin->getPath();
+	
+		if ($name = $plugin->getName()) {
+			$path .= '.'.$name;
 		}
+	
+		$this->plugins[$path] = $plugin;
+	}
 
-		$annotation = [
-			'type' => 'line',
-			'value' => $average,
-			'scaleID' => 'y',
-			'borderColor' => $color,
-			'borderDash' => [6, 6],
-			'borderDashOffset' => 0,
-			'borderWidth' => 2,
-		];
 
-		if (!is_null($label)) {
-			$annotation['label'] = [
-				'content' => $label($average),
-				'backgroundColor' => $color,
-				'position' => 'end',
-				'display' => true,
-			];
-		}
-
-		$this->setOption('plugins.annotation.annotations.'.$name, $annotation);
+	public function addAverage(DataSet $dataSet, string $label = null): void
+	{
+		$this->addPlugin(new AveragePlugin($dataSet, $label));
 	}
 
 
@@ -152,14 +126,18 @@ final class Chart extends Control
 
 	public function createConfig(): array
 	{
-		if ($this->translator instanceof Translator) {
-			$this->dataSource->setTranslator($this->translator);
+		$this->dataSource->setTranslator($this->translator);
+		$options = $this->options;
+
+		foreach ($this->plugins as $path => $plugin) {
+			$plugin->setTranslator($this->translator);
+			$options[$path] = $plugin->createConfig();
 		}
 
 		return [
 			'type' => $this->type->value,
 			'data' => $this->dataSource->createConfig(),
-			'options' => $this->getOptions(),
+			'options' => Arrays::unflatten($options),
 		];
 	}
 }

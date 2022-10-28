@@ -7,20 +7,14 @@
 
 namespace JuniWalk\ChartJS;
 
-use JuniWalk\Utils\Strings;
-use Nette\Localization\Translator;
+use JuniWalk\ChartJS\Traits;
 
 class DataSource
 {
-	protected ?Translator $translator;
+	use Traits\Translatable;
+
 	protected array $dataSets = [];
 	protected array $labels = [];
-
-
-	public function setTranslator(?Translator $translator): void
-	{
-		$this->translator = $translator;
-	}
 
 
 	public function setLabels(array $labels): void
@@ -64,20 +58,6 @@ class DataSource
 		}
 
 		return $config;
-	}
-
-
-	protected function translate(string $value): string
-	{
-		if (!$this->translator instanceof Translator) {
-			return $value;
-		}
-
-		if (!Strings::match($value, '/^([a-z][a-z0-9]+)\.([a-z][a-z0-9\._-]+)$/i')) {
-			return $value;
-		}
-
-		return $this->translator->translate($value);
 	}
 
 

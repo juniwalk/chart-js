@@ -8,12 +8,12 @@
 namespace JuniWalk\ChartJS\Tools;
 
 use JuniWalk\ChartJS\Tool;
-use JuniWalk\ChartJS\Traits\Toolable;
+use JuniWalk\ChartJS\Traits;
 use JuniWalk\Utils\Html;
 
 final class DropdownTool extends AbstractTool
 {
-	use Toolable {
+	use Traits\Toolable {
 		addDropdownTool as protected;
 		addGroupTool as protected;
 	}

@@ -8,11 +8,11 @@
 namespace JuniWalk\ChartJS\DataSets;
 
 use JuniWalk\ChartJS\DataSet;
-use JuniWalk\ChartJS\Traits\Optionable;
+use JuniWalk\ChartJS\Traits;
 
 abstract class AbstractDataSet implements DataSet
 {
-	use Optionable;
+	use Traits\Optionable;
 
 
 	public function getAverage(): float

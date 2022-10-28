@@ -9,12 +9,12 @@ namespace JuniWalk\ChartJS\Tools;
 
 use JuniWalk\ChartJS\Chart;
 use JuniWalk\ChartJS\Tool;
-use JuniWalk\ChartJS\Traits\Toolable;
+use JuniWalk\ChartJS\Traits;
 use JuniWalk\Utils\Html;
 
 final class GroupTool implements Tool
 {
-	use Toolable {
+	use Traits\Toolable {
 		addGroupTool as protected;
 	}
 
