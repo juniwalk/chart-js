@@ -37,6 +37,6 @@ trait Translatable
 			return $value;
 		}
 
-		return $this->translator->translate($value, ... $params);
+		return $this->translator->translate($value, $params);
 	}
 }
