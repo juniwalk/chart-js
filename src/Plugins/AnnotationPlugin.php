@@ -9,4 +9,8 @@ namespace JuniWalk\ChartJS\Plugins;
 
 class AnnotationPlugin extends AbstractPlugin
 {
+	public function getPath(): string
+	{
+		return 'plugins.annotation.annotations';
+	}
 }

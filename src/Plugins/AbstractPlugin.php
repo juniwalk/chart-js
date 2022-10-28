@@ -15,14 +15,6 @@ abstract class AbstractPlugin implements Plugin
 	use Traits\Optionable;
 	use Traits\Translatable;
 
-	protected readonly string $path;
-
-
-	public function getPath(): string
-	{
-		return $this->path;
-	}
-
 
 	public function getName(): ?string
 	{

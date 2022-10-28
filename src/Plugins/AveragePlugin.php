@@ -28,7 +28,6 @@ class AveragePlugin extends AnnotationPlugin
 
 	public function __construct(DataSet $dataSet, string $label = null)
 	{
-		$this->path = 'plugins.annotation.annotations';
 		$this->dataSet = $dataSet;
 		$this->label = $label;
 	}
