@@ -9,7 +9,6 @@ namespace JuniWalk\ChartJS\Enums;
 
 enum Type: string
 {
-	/** @var string */
 	case Bar = 'bar';
 	case Bubble = 'bubble';
 	case Doughnut = 'doughnut';

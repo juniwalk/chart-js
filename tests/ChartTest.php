@@ -7,6 +7,7 @@
 
 use JuniWalk\ChartJS\Chart;
 use JuniWalk\ChartJS\DataSets\ArrayDataSet;
+use JuniWalk\ChartJS\Enums\Type;
 use Nette\Localization\Translator;
 use Tester\Assert;
 
@@ -28,7 +29,7 @@ $dataSet = new ArrayDataSet('Array dataset', [
 ]);
 
 
-$chart = new Chart('bar', []);
+$chart = new Chart(Type::Bar, []);
 $chart->setTitle('Test chart title');
 $chart->setTranslator($translator);
 $chart->setDataSet('array', $dataSet);

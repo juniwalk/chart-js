@@ -7,12 +7,9 @@
 
 namespace JuniWalk\ChartJS;
 
-use Nette\Utils\Html;
+use JuniWalk\Utils\Html;
 
 interface Tool
 {
-	/**
-	 * @return Html
-	 */
 	public function render(): Html;
 }

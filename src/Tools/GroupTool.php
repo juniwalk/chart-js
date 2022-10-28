@@ -7,10 +7,10 @@
 
 namespace JuniWalk\ChartJS\Tools;
 
-use JuniWalk\ChartJS\Attributes\Toolable;
 use JuniWalk\ChartJS\Chart;
 use JuniWalk\ChartJS\Tool;
-use Nette\Utils\Html;
+use JuniWalk\ChartJS\Traits\Toolable;
+use JuniWalk\Utils\Html;
 
 final class GroupTool implements Tool
 {
@@ -19,18 +19,12 @@ final class GroupTool implements Tool
 	}
 
 
-	/**
-	 * @param Chart  $chart
-	 */
 	public function __construct(Chart $chart)
 	{
 		$this->chart = $chart;
 	}
 
 
-	/**
-	 * @return Html
-	 */
 	public function render(): Html
 	{
 		$el = Html::el('div class="btn-group"');

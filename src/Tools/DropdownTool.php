@@ -7,9 +7,9 @@
 
 namespace JuniWalk\ChartJS\Tools;
 
-use JuniWalk\ChartJS\Attributes\Toolable;
 use JuniWalk\ChartJS\Tool;
-use Nette\Utils\Html;
+use JuniWalk\ChartJS\Traits\Toolable;
+use JuniWalk\Utils\Html;
 
 final class DropdownTool extends AbstractTool
 {
@@ -19,9 +19,6 @@ final class DropdownTool extends AbstractTool
 	}
 
 
-	/**
-	 * @return void
-	 */
 	public function addSeparator(): void
 	{
 		$this->tools[] = new class implements Tool {
@@ -32,9 +29,6 @@ final class DropdownTool extends AbstractTool
 	}
 
 
-	/**
-	 * @return Html
-	 */
 	public function render(): Html
 	{
 		$dropdownMenu = Html::el('div class="dropdown-menu"');

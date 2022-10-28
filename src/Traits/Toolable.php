@@ -5,7 +5,7 @@
  * @license   MIT License
  */
 
-namespace JuniWalk\ChartJS\Attributes;
+namespace JuniWalk\ChartJS\Traits;
 
 use JuniWalk\ChartJS\Chart;
 use JuniWalk\ChartJS\Tool;
@@ -13,30 +13,17 @@ use JuniWalk\ChartJS\Tools;
 
 trait Toolable
 {
-	/** @var Chart */
-	protected $chart;
-
-	/** @var Tool[] */
-	protected $tools = [];
+	protected Chart $chart;
+	protected array $tools = [];
 
 
-	/**
-	 * @param  Tool  $tool
-	 * @return Tool
-	 */
 	public function addTool(Tool $tool): Tool
 	{
 		return $this->tools[] = $tool;
 	}
 
 
-	/**
-	 * @param  string  $href
-	 * @param  string  $name
-	 * @param  string[]  $params
-	 * @return LinkTool
-	 */
-	public function addLinkTool(string $href, string $name, iterable $params = []): Tool
+	public function addLinkTool(string $href, string $name, array $params = []): Tool
 	{
 		$tool = new Tools\LinkTool($this->chart ?: $this);
 		$tool->setLabel($name);
@@ -47,9 +34,6 @@ trait Toolable
 	}
 
 
-	/**
-	 * @return DropdownTool
-	 */
 	public function addDropdownTool(string $name): Tool
 	{
 		$tool = new Tools\DropdownTool($this->chart ?: $this);
@@ -59,9 +43,6 @@ trait Toolable
 	}
 
 
-	/**
-	 * @return GroupTool
-	 */
 	public function addGroupTool(): Tool
 	{
 		$tool = new Tools\GroupTool($this->chart ?: $this);

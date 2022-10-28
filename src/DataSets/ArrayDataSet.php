@@ -7,34 +7,26 @@
 
 namespace JuniWalk\ChartJS\DataSets;
 
-final class ArrayDataSet extends AbstractDataSet
+class ArrayDataSet extends AbstractDataSet
 {
-	/** @var string[] */
-	private $data = [];
+	protected array $data = [];
 
 
-	/**
-	 * @param  string  $label
-	 * @param  string[]  $data
-	 */
-	public function __construct(string $label, iterable $data)
+	public function __construct(string $label, array $data)
 	{
 		$this->setOption('label', $label);
 		$this->data = $data;
 	}
 
 
-	/**
-	 * @return string[]
-	 */
-	public function fetchData(): iterable
-	{
-		return $this->data;
-	}
-
-
 	public function getAverage(): float
 	{
 		return array_sum($this->data) / sizeof($this->data);
+	}
+
+
+	protected function fetchData(): array
+	{
+		return $this->data;
 	}
 }

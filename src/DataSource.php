@@ -7,68 +7,46 @@
 
 namespace JuniWalk\ChartJS;
 
+use JuniWalk\Utils\Strings;
 use Nette\Localization\Translator;
-use Nette\Utils\Strings;
 
 class DataSource
 {
-	/** @var string[] */
-	protected $labels = [];
-
-	/** @var DataSet[] */
-	protected $dataSets = [];
-
-	/** @var Translator */
-	protected $translator;
+	protected ?Translator $translator;
+	protected array $dataSets = [];
+	protected array $labels = [];
 
 
-	/**
-	 * @param  Translator|null  $translator
-	 * @return void
-	 */
 	public function setTranslator(?Translator $translator): void
 	{
 		$this->translator = $translator;
 	}
 
 
-	/**
-	 * @param  string[]  $labels
-	 * @return void
-	 */
-	public function setLabels(iterable $labels): void
+	public function setLabels(array $labels): void
 	{
 		$this->labels = $labels;
 	}
 
 
-	/**
-	 * @param  string  $name
-	 * @param  DataSet  $dataSet
-	 * @return void
-	 */
 	public function setDataSet(string $name, DataSet $dataSet): void
 	{
 		$this->dataSets[$name] = $dataSet;
 	}
 
 
-	/**
-	 * @param  string  $name
-	 * @return DataSet|null
-	 */
 	public function getDataset(string $name): ?DataSet
 	{
 		return $this->dataSets[$name] ?? null;
 	}
 
 
-	/**
-	 * @return string[]
-	 */
-	public function createConfig(): iterable
+	public function createConfig(): array
 	{
-		$config = ['labels' => [],'datasets' => []];
+		$config = [
+			'labels' => [],
+			'datasets' => [],
+		];
 
 		foreach ($this->dataSets as $dataSet) {
 			$result = $dataSet->createConfig();
@@ -89,10 +67,6 @@ class DataSource
 	}
 
 
-	/**
-	 * @param  string  $value
-	 * @return string
-	 */
 	protected function translate(string $value): string
 	{
 		if (!$this->translator instanceof Translator) {
@@ -107,11 +81,7 @@ class DataSource
 	}
 
 
-	/**
-	 * @param  string[]  $data
-	 * @return string[]
-	 */
-	protected function parse(iterable $data): iterable
+	protected function parse(array $data): array
 	{
 		$labels = $result = [];
 

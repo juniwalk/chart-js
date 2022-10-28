@@ -7,17 +7,21 @@
 
 namespace JuniWalk\ChartJS\DataSets;
 
-use JuniWalk\ChartJS\Attributes\Optionable;
 use JuniWalk\ChartJS\DataSet;
+use JuniWalk\ChartJS\Traits\Optionable;
 
 abstract class AbstractDataSet implements DataSet
 {
 	use Optionable;
 
-	/**
-	 * @return string[]
-	 */
-	public function createConfig(): iterable
+
+	public function getAverage(): float
+	{
+		return 0;
+	}
+
+
+	public function createConfig(): array
 	{
 		return array_merge($this->getOptions(), [
 			'data' => $this->fetchData(),
@@ -25,14 +29,5 @@ abstract class AbstractDataSet implements DataSet
 	}
 
 
-	/**
-	 * @return string[]
-	 */
-	abstract protected function fetchData(): iterable;
-
-
-	public function getAverage(): float
-	{
-		return 0;
-	}
+	abstract protected function fetchData(): array;
 }

@@ -7,9 +7,10 @@
 
 namespace JuniWalk\ChartJS;
 
-use JuniWalk\ChartJS\Attributes\Optionable;
-use JuniWalk\ChartJS\Attributes\Toolable;
 use JuniWalk\ChartJS\Enums\Type;
+use JuniWalk\ChartJS\Traits\Optionable;
+use JuniWalk\ChartJS\Traits\Toolable;
+use JuniWalk\Utils\Enums\Color;
 use JuniWalk\Utils\Strings;
 use Nette\Application\UI\Control;
 use Nette\Localization\Translator;
@@ -19,27 +20,14 @@ final class Chart extends Control
 	use Optionable;
 	use Toolable;
 
-	/** @var Translator */
-	protected $translator;
-
-	/** @var DataSource */
-	protected $dataSource;
-
-	/** @var Type */
-	protected $type;
-
-	/** @var string */
-	protected $title;
-
-	/** @var string */
-	protected $color;
+	protected ?Translator $translator = null;
+	protected DataSource $dataSource;
+	protected Type $type;
+	protected ?Color $color = null;
+	protected ?string $title = null;
 
 
-	/**
-	 * @param  Type  $type
-	 * @param  string[]  $options
-	 */
-	public function __construct(string $type, iterable $options = [])
+	public function __construct(Type $type, array $options = [])
 	{
 		$this->dataSource = new DataSource;
 		$this->options = $options;
@@ -47,119 +35,72 @@ final class Chart extends Control
 	}
 
 
-	/**
-	 * @param  Translator|null  $translator
-	 * @return void
-	 */
 	public function setTranslator(?Translator $translator): void
 	{
 		$this->translator = $translator;
 	}
 
 
-	/**
-	 * @return Translator|null
-	 */
 	public function getTranslator(): ?Translator
 	{
 		return $this->translator;
 	}
 
 
-	/**
-	 * @param  string|null  $title
-	 * @return void
-	 */
 	public function setTitle(?string $title): void
 	{
 		$this->title = $title;
 	}
 
 
-	/**
-	 * @return string|null
-	 */
 	public function getTitle(): ?string
 	{
 		return $this->title;
 	}
 
 
-	/**
-	 * @param  string|null  $color
-	 * @return void
-	 */
-	public function setColor(?string $color): void
+	public function setColor(?Color $color): void
 	{
 		$this->color = $color;
 	}
 
 
-	/**
-	 * @return string|null
-	 */
-	public function getColor(): ?string
+	public function getColor(): ?Color
 	{
 		return $this->color;
 	}
 
 
-	/**
-	 * @param  Type  $type
-	 * @return void
-	 */
-	// public function setType(Type $type): void
-	public function setType(string $type): void
+	public function setType(Type $type): void
 	{
 		$this->type = $type;
 	}
 
 
-	/**
-	 * @return Type
-	 */
-	public function getType()//: Type
+	public function getType(): Type
 	{
 		return $this->type;
 	}
 
 
-	/**
-	 * @param  DataSource  $dataSource
-	 * @return void
-	 */
 	public function setDataSource(DataSource $dataSource): void
 	{
 		$this->dataSource = $dataSource;
 	}
 
 
-	/**
-	 * @param  string[]  $labels
-	 * @return void
-	 */
-	public function setLabels(iterable $labels): void
+	public function setLabels(array $labels): void
 	{
 		$this->dataSource->setLabels($labels);
 	}
 
 
-	/**
-	 * @param  string  $key
-	 * @param  DataSet  $dataSet
-	 * @return void
-	 */
 	public function setDataSet(string $key, DataSet $dataSet): void
 	{
 		$this->dataSource->setDataSet($key, $dataSet);
 	}
 
 
-	/**
-	 * @param  DataSet  $dataSet
-	 * @param  callable|null  $label
-	 * @return void
-	 */
 	public function addAverage(DataSet $dataSet, callable $label = null): void
 	{
 		$name = Strings::webalize($dataSet->getOption('label'));
@@ -192,9 +133,6 @@ final class Chart extends Control
 	}
 
 
-	/**
-	 * @return void
-	 */
 	public function render(): void
 	{
 		$template = $this->createTemplate();
@@ -202,7 +140,7 @@ final class Chart extends Control
 		$template->add('controlName', $this->getName());
 		$template->add('config', $this->createConfig());
 		$template->add('title', $this->title);
-		$template->add('color', $this->color ?? 'secondary');
+		$template->add('color', $this->color ?? Color::Secondary);
 		$template->add('tools', $this->tools);
 		$template->add('type', $this->type);
 
@@ -212,17 +150,14 @@ final class Chart extends Control
 	}
 
 
-	/**
-	 * @return string[]
-	 */
-	public function createConfig(): iterable
+	public function createConfig(): array
 	{
 		if ($this->translator instanceof Translator) {
 			$this->dataSource->setTranslator($this->translator);
 		}
 
 		return [
-			'type' => $this->type,
+			'type' => $this->type->value,
 			'data' => $this->dataSource->createConfig(),
 			'options' => $this->getOptions(),
 		];
