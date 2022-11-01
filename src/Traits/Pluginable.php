@@ -11,7 +11,7 @@ use JuniWalk\ChartJS\DataSet;
 use JuniWalk\ChartJS\Plugin;
 use JuniWalk\ChartJS\Plugins;
 
-trait Optionable
+trait Pluginable
 {
 	protected array $plugins = [];
 
