@@ -70,6 +70,7 @@ class AveragePlugin extends AnnotationPlugin
 				'position' => 'end',
 				'backgroundColor' => 'rgba(0, 0, 0, 0.75)',
 				'content' => $this->callback->call($this, $average),
+				'drawTime' => 'afterDraw',
 			]);
 		}
 
