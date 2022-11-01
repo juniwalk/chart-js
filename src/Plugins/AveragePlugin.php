@@ -7,29 +7,32 @@
 
 namespace JuniWalk\ChartJS\Plugins;
 
+use Closure;
 use JuniWalk\ChartJS\DataSet;
 use JuniWalk\ChartJS\Enums\Type;
+use JuniWalk\Utils\Json;
 use JuniWalk\Utils\Strings;
 
 class AveragePlugin extends AnnotationPlugin
 {
 	protected readonly DataSet $dataSet;
-	protected ?string $label = null;
+	protected ?Closure $callback = null;
+	protected bool $isLabelOnHover = false;
 	protected array $options = [
 		'type' => null,
 		'value' => null,
 		'scaleID' => 'y',
-		'borderColor' => 'rgba(128, 128, 128, 0.8)',
+		'borderColor' => 'rgba(0, 0, 0, 0.75)',
 		'borderDash' => [6, 6],
 		'borderDashOffset' => 0,
-		'borderWidth' => 2,
+		'borderWidth' => 1.5,
 	];
 
 
-	public function __construct(DataSet $dataSet, string $label = null)
+	public function __construct(DataSet $dataSet, callable $callback = null)
 	{
+		$this->callback = Closure::fromCallable($callback);
 		$this->dataSet = $dataSet;
-		$this->label = $label;
 	}
 
 
@@ -39,27 +42,52 @@ class AveragePlugin extends AnnotationPlugin
 	}
 
 
+	public function setLabelOnHover(bool $isLabelOnHover = false): void
+	{
+		$this->isLabelOnHover = $isLabelOnHover;
+	}
+
+
+	public function isLabelOnHover(): bool
+	{
+		return $this->isLabelOnHover;
+	}
+
+
 	public function createConfig(): array
 	{
 		if (!$average = $this->dataSet->getAverage()) {
 			return [];
 		}
 
+		$this->setOption('borderColor', $this->dataSet->getOption('backgroundColor'));
 		$this->setOption('type', Type::Line->value);
 		$this->setOption('value', $average);
 
-		if (is_null($this->label)) {
-			return parent::createConfig();
+		if ($this->callback instanceof Closure) {
+			$this->setOption('label', [
+				'display' => !$this->isLabelOnHover,
+				'position' => 'end',
+				'backgroundColor' => 'rgba(0, 0, 0, 0.75)',
+				'content' => $this->callback->call($this, $average),
+			]);
 		}
 
-		$this->setOption('label', [
-			'display' => true,
-			'position' => 'end',
-			'backgroundColor' => $this->getOption('borderColor'),
-			'content' => $this->translate($this->label, [
-				'average' => $average,
-			]),
-		]);
+		if ($this->callback instanceof Closure && $this->isLabelOnHover) {
+			$this->setOption('enter', Json::literal(<<<JS
+				function(ctx, event) {
+					ctx.element.label.options.display = true;
+					return true;
+				}
+				JS));
+
+			$this->setOption('leave', Json::literal(<<<JS
+				function(ctx, event) {
+					ctx.element.label.options.display = false;
+					return true;
+				}
+				JS));
+		}
 
 		return parent::createConfig();
 	}

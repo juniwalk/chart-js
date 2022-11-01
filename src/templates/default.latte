@@ -19,7 +19,7 @@
 	<script type="text/javascript" defer>
 	document.addEventListener("DOMContentLoaded", function() {
 		var context = $("#chart-"+{$controlName}).get(0).getContext('2d');
-		var chart = new Chart(context, {$config});
+		var chart = new Chart(context, {$config|json|noescape});
 	});
 	</script>
 

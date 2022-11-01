@@ -7,16 +7,17 @@
 
 namespace JuniWalk\ChartJS;
 
-use JuniWalk\ChartJS\Plugins\AveragePlugin;
 use JuniWalk\ChartJS\Enums\Type;
 use JuniWalk\ChartJS\Traits;
 use JuniWalk\Utils\Enums\Color;
 use JuniWalk\Utils\Arrays;
+use JuniWalk\Utils\Json;
 use Nette\Application\UI\Control;
 
 final class Chart extends Control
 {
 	use Traits\Optionable;
+	use Traits\Pluginable;
 	use Traits\Translatable;
 	use Traits\Toolable;
 
@@ -24,7 +25,6 @@ final class Chart extends Control
 	protected Type $type;
 	protected ?Color $color = null;
 	protected ?string $title = null;
-	protected array $plugins = [];
 
 
 	public function __construct(Type $type, array $options = [])
@@ -89,28 +89,14 @@ final class Chart extends Control
 	}
 
 
-	public function addPlugin(Plugin $plugin): void
-	{
-		$path = $plugin->getPath();
-	
-		if ($name = $plugin->getName()) {
-			$path .= '.'.$name;
-		}
-	
-		$this->plugins[$path] = $plugin;
-	}
-
-
-	public function addAverage(DataSet $dataSet, string $label = null): void
-	{
-		$this->addPlugin(new AveragePlugin($dataSet, $label));
-	}
-
-
 	public function render(): void
 	{
 		$template = $this->createTemplate();
 		$template->setFile(__DIR__.'/templates/default.latte');
+		$template->getLatte()->addFilter('json', function(mixed $s): string {
+			return Json::encode($s, Json::PRETTY);
+		});
+
 		$template->add('controlName', $this->getName());
 		$template->add('config', $this->createConfig());
 		$template->add('title', $this->title);
