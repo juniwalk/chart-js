@@ -27,8 +27,10 @@ trait Translatable
 	}
 
 
-	protected function translate(string $value, array $params = []): string
+	protected function translate(mixed $value, array $params = []): string
 	{
+		$value = (string) $value;
+
 		if (!$this->translator instanceof Translator) {
 			return $value;
 		}
