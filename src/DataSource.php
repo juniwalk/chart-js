@@ -66,11 +66,6 @@ class DataSource
 		$labels = $result = [];
 
 		foreach ($data as $key => $item) switch (true) {
-			case is_string($key) && is_scalar($item):
-				$result[] = $item;
-				$labels[] = $key;
-				break;
-
 			case is_array($item):
 				$result[] = $item['value'];
 				$labels[] = $item['key'];
@@ -78,10 +73,11 @@ class DataSource
 
 			default:
 				$result[] = $item;
+				$labels[] = $key;
 				break;
 		}
 
-		if ($labels && sizeof($labels) > sizeof($this->labels)) {
+		if (empty($this->labels) || ($labels && sizeof($labels) > sizeof($this->labels))) {
 			$this->labels = $labels;
 		}
 
