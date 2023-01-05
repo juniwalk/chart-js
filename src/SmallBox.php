@@ -1,0 +1,78 @@
+<?php declare(strict_types=1);
+
+/**
+ * @copyright Martin Procházka (c) 2022
+ * @license   MIT License
+ */
+
+namespace JuniWalk\ChartJS;
+
+use Closure;
+use JuniWalk\Utils\Enums\Color;
+use Nette\Application\UI\Control;
+
+class SmallBox extends Control
+{
+	private ?string $subtitle = null;
+	private ?string $unit = null;
+	private ?string $icon = null;
+	private ?Color $color = null;
+
+	public function __construct(
+		private string $title,
+		private Closure $callback,
+	) {}
+
+
+	public function render(): void
+	{
+		$count = ($this->callback)($this);
+
+		$template = $this->createTemplate();
+		$template->setFile(__DIR__.'/templates/smallbox.latte');
+
+		$template->add('title', $this->title);
+		$template->add('subtitle', $this->subtitle);
+		$template->add('count', $count);
+		$template->add('unit', $this->unit);
+		$template->add('icon', $this->icon);
+		$template->add('color', $this->color ?? Color::Secondary);
+
+		$template->render();
+	}
+
+
+	public function title(string $title): static
+	{
+		$this->title = $title;
+		return $this;
+	}
+
+
+	public function subtitle(?string $subtitle): static
+	{
+		$this->subtitle = $subtitle;
+		return $this;
+	}
+
+
+	public function unit(?string $unit): static
+	{
+		$this->unit = $unit;
+		return $this;
+	}
+
+
+	public function icon(string $icon): static
+	{
+		$this->icon = $icon;
+		return $this;
+	}
+
+
+	public function color(Color $color): static
+	{
+		$this->color = $color;
+		return $this;
+	}
+}
