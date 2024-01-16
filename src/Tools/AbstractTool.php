@@ -9,7 +9,7 @@ namespace JuniWalk\ChartJS\Tools;
 
 use JuniWalk\ChartJS\Chart;
 use JuniWalk\ChartJS\Tool;
-use Nette\Utils\Html;
+use JuniWalk\Utils\Html;
 
 abstract class AbstractTool implements Tool
 {
