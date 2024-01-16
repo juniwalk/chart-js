@@ -25,7 +25,7 @@ trait Toolable
 
 	public function addLinkTool(string $href, string $name, array $params = []): Tool
 	{
-		$tool = new Tools\LinkTool($this->chart ?: $this);
+		$tool = new Tools\LinkTool($this->chart ?? $this);
 		$tool->setLabel($name);
 		$tool->setHref($href);
 		$tool->setParams($params);
@@ -36,7 +36,7 @@ trait Toolable
 
 	public function addDropdownTool(string $name): Tool
 	{
-		$tool = new Tools\DropdownTool($this->chart ?: $this);
+		$tool = new Tools\DropdownTool($this->chart ?? $this);
 		$tool->setLabel($name);
 
 		return $this->addTool($tool);
@@ -45,7 +45,7 @@ trait Toolable
 
 	public function addGroupTool(): Tool
 	{
-		$tool = new Tools\GroupTool($this->chart ?: $this);
+		$tool = new Tools\GroupTool($this->chart ?? $this);
 
 		return $this->addTool($tool);
 	}
