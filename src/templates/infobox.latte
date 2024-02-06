@@ -1,0 +1,13 @@
+<div n:class="info-box, p-3, mb-3, $color->for('bg')">
+	<div class="info-box-content">
+		<span class="info-box-text text-uppercase">
+			{$title|translate|stripHtml}
+			<span n:if="$subtitle"> / <small>{$subtitle|translate|noescape}</small></span>
+		</span>
+		<h3 class="info-box-number m-0">
+			{$count|noescape}
+			<small n:if="$unit"> {$unit|translate|noescape}</small>
+		</h3>
+	</div>
+	<span class="info-box-icon text-gray-dark" n:ifcontent>{$icon|icon:true,'watermark'}</span>
+</div>

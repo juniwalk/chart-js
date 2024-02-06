@@ -8,11 +8,13 @@
 namespace JuniWalk\ChartJS;
 
 use Closure;
+use JuniWalk\ChartJS\Enums\Box;
 use JuniWalk\Utils\Enums\Color;
 use Nette\Application\UI\Control;
 
 class SmallBox extends Control
 {
+	private Box $type = Box::Small;
 	private ?string $subtitle = null;
 	private ?string $unit = null;
 	private ?string $icon = null;
@@ -21,24 +23,31 @@ class SmallBox extends Control
 	public function __construct(
 		private string $title,
 		private Closure $callback,
-	) {}
+	) {
+	}
 
 
 	public function render(): void
 	{
-		$count = ($this->callback)($this);
+		$result = ($this->callback)($this);
 
 		$template = $this->createTemplate();
-		$template->setFile(__DIR__.'/templates/smallbox.latte');
-
+		$template->setFile(__DIR__.'/templates/'.$this->type->value.'.latte');
 		$template->add('title', $this->title);
 		$template->add('subtitle', $this->subtitle);
-		$template->add('count', $count);
+		$template->add('count', $result);
 		$template->add('unit', $this->unit);
 		$template->add('icon', $this->icon);
 		$template->add('color', $this->color ?? Color::Secondary);
 
 		$template->render();
+	}
+
+
+	public function type(Box $type): static
+	{
+		$this->type = $type;
+		return $this;
 	}
 
 
