@@ -10,10 +10,6 @@ namespace JuniWalk\ChartJS;
 interface Plugin
 {
 	public function getPath(): string;
-
-
 	public function getName(): ?string;
-
-
 	public function createConfig(): array;
 }
