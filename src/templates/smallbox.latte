@@ -5,7 +5,7 @@
 			<span n:if="$subtitle"> / <small>{$subtitle|translate|noescape}</small></span>
 		</span>
 		<h4 class="m-0 font-weight-bold">
-			{$count}
+			{$count|noescape}
 			<small n:if="$unit"> {$unit|translate|noescape}</small>
 		</h4>
 	</div>
