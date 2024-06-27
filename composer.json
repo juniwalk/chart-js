@@ -11,6 +11,15 @@
 		"psr-4": {"JuniWalk\\ChartJS\\": "src/"}
 	},
 
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"config": {
+		"sort-packages": true,
+		"allow-plugins": {
+			"phpstan/extension-installer": true
+		}
+	},
+
 	"require": {
 		"php": ">=8.1",
 		"juniwalk/utils": ">=1.2.6",
@@ -18,6 +27,13 @@
 	},
 
 	"require-dev": {
-		"nette/tester": "^2.0"
+		"nette/tester": "^2.5",
+		"phpstan/extension-installer": "^1.0",
+		"phpstan/phpstan": "^1.11",
+		"phpstan/phpstan-deprecation-rules": "^1.2",
+		"phpstan/phpstan-doctrine": "^1.4",
+		"phpstan/phpstan-nette": "^1.3",
+		"staabm/phpstan-todo-by": "^0.1.27",
+		"tracy/tracy": "^2.10"
 	}
 }
