@@ -10,7 +10,5 @@ namespace JuniWalk\ChartJS;
 interface DataSet
 {
 	public function createConfig(): array;
-
-
 	public function getAverage(): float;
 }

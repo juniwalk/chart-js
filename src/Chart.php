@@ -19,7 +19,6 @@ final class Chart extends Control
 	use Traits\Optionable;
 	use Traits\Pluginable;
 	use Traits\Translatable;
-	use Traits\Toolable;
 
 	protected DataSource $dataSource;
 	protected Type $type;
@@ -101,7 +100,6 @@ final class Chart extends Control
 		$template->add('config', $this->createConfig());
 		$template->add('title', $this->title);
 		$template->add('color', $this->color ?? Color::Secondary);
-		$template->add('tools', $this->tools);
 		$template->add('type', $this->type);
 
 		// any onBeforeRender callbacks?
