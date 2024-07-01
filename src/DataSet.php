@@ -9,7 +9,7 @@ namespace JuniWalk\ChartJS;
 
 use Stringable;
 
-interface DataSet extends Options
+interface DataSet extends OptionHandler
 {
 	public function getAverage(): float;
 

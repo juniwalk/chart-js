@@ -8,20 +8,24 @@
 namespace JuniWalk\ChartJS;
 
 use JuniWalk\ChartJS\Enums\Type;
-use JuniWalk\ChartJS\Traits;
-use JuniWalk\Utils\Enums\Color;
+use JuniWalk\ChartJS\Traits\Options;
+use JuniWalk\ChartJS\Traits\Translation;
+use JuniWalk\Components\Actions\LinkProvider;
+use JuniWalk\Components\Actions\Traits\Actions;
+use JuniWalk\Components\Actions\Traits\Links;
 use JuniWalk\Utils\Arrays;
+use JuniWalk\Utils\Enums\Color;
+use JuniWalk\Utils\Interfaces\EventHandler;
 use JuniWalk\Utils\Json;
+use JuniWalk\Utils\Traits\Events;
 use Nette\Application\UI\Control;
 use Nette\Bridges\ApplicationLatte\DefaultTemplate;
 
-final class Chart extends Control implements Options
+final class Chart extends Control implements OptionHandler, EventHandler, LinkProvider
 {
-	use Traits\Optionable;
-	use Traits\Translatable;
+	use Actions, Events, Options, Links, Translation;
 
 	protected DataSource $dataSource;
-	protected Type $type;
 	protected ?Color $color = null;
 	protected ?string $title = null;
 
@@ -32,11 +36,12 @@ final class Chart extends Control implements Options
 	/**
 	 * @param array<string, mixed> $options
 	 */
-	public function __construct(Type $type, array $options = [])
-	{
+	public function __construct(
+		protected Type $type,
+		protected array $options = [],
+	) {
 		$this->dataSource = new DataSource;
-		$this->options = $options;
-		$this->type = $type;
+		$this->watch('render');
 	}
 
 
@@ -107,11 +112,8 @@ final class Chart extends Control implements Options
 
 	public function addPlugin(Plugin $plugin): Plugin
 	{
-		$plugin->setChart($this);
-		$path = $plugin->getPath();
-		$name = $plugin->getName();
-	
-		return $this->plugins[$path.'.'.$name] = $plugin;
+		$slug = $plugin->getPath().'.'.$plugin->getName();
+		return $this->plugins[$slug] = $plugin->setChart($this);
 	}
 
 
@@ -122,6 +124,8 @@ final class Chart extends Control implements Options
 		$template->setFile(__DIR__.'/templates/default.latte');
 		$template->getLatte()->addFilter('json', fn($x) => Json::encode($x, Json::PRETTY));
 
+		$this->trigger('render', $this, $template);
+
 		$template->setParameters([
 			'controlName' => $this->getName(),
 			'config' => $this->createConfig(),
@@ -129,8 +133,6 @@ final class Chart extends Control implements Options
 			'color' => $this->color ?? Color::Secondary,
 			'type' => $this->type,
 		]);
-
-		// any onBeforeRender callbacks?
 
 		$template->render();
 	}

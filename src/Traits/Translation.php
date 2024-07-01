@@ -11,7 +11,7 @@ use JuniWalk\Utils\Strings;
 use Nette\Localization\Translator;
 use Stringable;
 
-trait Translatable
+trait Translation
 {
 	protected ?Translator $translator;
 

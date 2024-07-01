@@ -8,12 +8,12 @@
 namespace JuniWalk\ChartJS\DataSets;
 
 use JuniWalk\ChartJS\DataSet;
-use JuniWalk\ChartJS\Options;
-use JuniWalk\ChartJS\Traits;
+use JuniWalk\ChartJS\OptionHandler;
+use JuniWalk\ChartJS\Traits\Options;
 
-abstract class AbstractDataSet implements DataSet, Options
+abstract class AbstractDataSet implements DataSet, OptionHandler
 {
-	use Traits\Optionable;
+	use Options;
 
 
 	public function getAverage(): float

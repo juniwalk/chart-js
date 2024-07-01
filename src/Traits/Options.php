@@ -7,13 +7,13 @@
 
 namespace JuniWalk\ChartJS\Traits;
 
-use JuniWalk\ChartJS\Options;	// ! Used for @phpstan
+use JuniWalk\ChartJS\OptionHandler;	// ! Used for @phpstan
 use JuniWalk\Utils\Arrays;
 
 /**
- * @phpstan-require-implements Options
+ * @phpstan-require-implements OptionHandler
  */
-trait Optionable
+trait Options
 {
 	/** @var array<string, mixed> */
 	protected array $options = [];

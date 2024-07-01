@@ -7,7 +7,7 @@
 
 namespace JuniWalk\ChartJS;
 
-interface Options
+interface OptionHandler
 {
 	public function setOption(string $key, mixed $value): void;
 	public function getOption(string $key): mixed;

@@ -7,11 +7,11 @@
 
 namespace JuniWalk\ChartJS;
 
-use JuniWalk\ChartJS\Traits;
+use JuniWalk\ChartJS\Traits\Translation;
 
 class DataSource
 {
-	use Traits\Translatable;
+	use Translation;
 
 	/** @var array<string, DataSet> */
 	protected array $dataSets = [];
