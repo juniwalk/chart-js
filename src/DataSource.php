@@ -13,10 +13,16 @@ class DataSource
 {
 	use Traits\Translatable;
 
+	/** @var array<string, DataSet> */
 	protected array $dataSets = [];
+
+	/** @var array<string> */
 	protected array $labels = [];
 
 
+	/**
+	 * @param array<string> $labels
+	 */
 	public function setLabels(array $labels): void
 	{
 		$this->labels = $labels;
@@ -35,6 +41,9 @@ class DataSource
 	}
 
 
+	/**
+	 * @return array<string, mixed>
+	 */
 	public function createConfig(): array
 	{
 		$config = [
@@ -61,6 +70,10 @@ class DataSource
 	}
 
 
+	/**
+	 * @param  array<string, int|float>|array<array{key: string, value: int|float}> $data
+	 * @return array<int|float>
+	 */
 	protected function parse(array $data): array
 	{
 		$labels = $result = [];
@@ -77,7 +90,7 @@ class DataSource
 				break;
 		}
 
-		if (empty($this->labels) || ($labels && sizeof($labels) > sizeof($this->labels))) {
+		if (empty($this->labels) || sizeof($labels) > sizeof($this->labels)) {
 			$this->labels = $labels;
 		}
 

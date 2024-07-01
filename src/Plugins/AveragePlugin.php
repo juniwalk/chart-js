@@ -18,6 +18,8 @@ class AveragePlugin extends AnnotationPlugin
 	protected readonly DataSet $dataSet;
 	protected ?Closure $callback = null;
 	protected bool $isLabelOnHover = false;
+
+	/** @var array<string, mixed> */
 	protected array $options = [
 		'type' => null,
 		'value' => null,
@@ -29,16 +31,21 @@ class AveragePlugin extends AnnotationPlugin
 	];
 
 
-	public function __construct(DataSet $dataSet, callable $callback = null)
+	public function __construct(DataSet $dataSet, ?callable $callback = null)
 	{
-		$this->callback = Closure::fromCallable($callback);
 		$this->dataSet = $dataSet;
+
+		if (is_callable($callback)) {
+			$this->callback = Closure::fromCallable($callback);
+		}
 	}
 
 
-	public function getName(): ?string
+	public function getName(): string
 	{
-		return Strings::webalize($this->dataSet->getOption('label'));
+		/** @var string */
+		$label = $this->dataSet->getOption('label');
+		return Strings::webalize($label);
 	}
 
 
@@ -54,6 +61,9 @@ class AveragePlugin extends AnnotationPlugin
 	}
 
 
+	/**
+	 * @return array<string, mixed>
+	 */
 	public function createConfig(): array
 	{
 		if (!$average = $this->dataSet->getAverage()) {

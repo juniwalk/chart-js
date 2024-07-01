@@ -11,16 +11,17 @@ use Closure;
 
 class CallbackDataSet extends AbstractDataSet
 {
-	protected Closure $callback;
-
-
-	public function __construct(string $label, callable $callback)
-	{
-		$this->callback = Closure::fromCallable($callback);
+	public function __construct(
+		string $label,
+		protected Closure $callback,
+	) {
 		$this->setOption('label', $label);
 	}
 
 
+	/**
+	 * @return array<array{key: string, value: int|float}>
+	 */
 	protected function fetchData(): array
 	{
 		return ($this->callback)();

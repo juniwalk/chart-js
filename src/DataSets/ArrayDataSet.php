@@ -9,13 +9,14 @@ namespace JuniWalk\ChartJS\DataSets;
 
 class ArrayDataSet extends AbstractDataSet
 {
-	protected array $data = [];
-
-
-	public function __construct(string $label, array $data)
-	{
+	/**
+	 * @param array<array{key: string, value: int|float}> $data
+	 */
+	public function __construct(
+		string $label,
+		protected array $data = [],
+	) {
 		$this->setOption('label', $label);
-		$this->data = $data;
 	}
 
 
@@ -25,6 +26,9 @@ class ArrayDataSet extends AbstractDataSet
 	}
 
 
+	/**
+	 * @return array<array{key: string, value: int|float}>
+	 */
 	protected function fetchData(): array
 	{
 		return $this->data;

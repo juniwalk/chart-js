@@ -11,6 +11,7 @@ use Closure;
 use JuniWalk\ChartJS\Enums\Box;
 use JuniWalk\Utils\Enums\Color;
 use Nette\Application\UI\Control;
+use Nette\Bridges\ApplicationLatte\DefaultTemplate;
 
 class SmallBox extends Control
 {
@@ -31,14 +32,19 @@ class SmallBox extends Control
 	{
 		$result = ($this->callback)($this);
 
+		/** @var DefaultTemplate */
 		$template = $this->createTemplate();
 		$template->setFile(__DIR__.'/templates/'.$this->type->value.'.latte');
-		$template->add('title', $this->title);
-		$template->add('subtitle', $this->subtitle);
-		$template->add('count', $result);
-		$template->add('unit', $this->unit);
-		$template->add('icon', $this->icon);
-		$template->add('color', $this->color ?? Color::Secondary);
+
+		$template->setParameters([
+			'title' => $this->title,
+			'subtitle' => $this->subtitle,
+			'count' => $result,
+			'unit' => $this->unit,
+			'icon' => $this->icon,
+			'color' => $this->color ?? Color::Secondary,
+
+		]);
 
 		$template->render();
 	}

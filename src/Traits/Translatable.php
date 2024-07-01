@@ -9,10 +9,11 @@ namespace JuniWalk\ChartJS\Traits;
 
 use JuniWalk\Utils\Strings;
 use Nette\Localization\Translator;
+use Stringable;
 
 trait Translatable
 {
-	protected ?Translator $translator = null;
+	protected ?Translator $translator;
 
 
 	public function setTranslator(?Translator $translator): void
@@ -23,11 +24,14 @@ trait Translatable
 
 	public function getTranslator(): ?Translator
 	{
-		return $this->translator;
+		return $this->translator ?? null;
 	}
 
 
-	protected function translate(mixed $value, array $params = []): string
+	/**
+	 * @param array<string, string> $params
+	 */
+	protected function translate(string|Stringable $value, array $params = []): string|Stringable
 	{
 		$value = (string) $value;
 

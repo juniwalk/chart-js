@@ -7,8 +7,14 @@
 
 namespace JuniWalk\ChartJS;
 
-interface DataSet
+use Stringable;
+
+interface DataSet extends Options
 {
-	public function createConfig(): array;
 	public function getAverage(): float;
+
+	/**
+	 * @return array{data: array<string, int|float>|array<array{key: string, value: int|float}>, label?: string|Stringable}
+	 */
+	public function createConfig(): array;
 }

@@ -9,7 +9,12 @@ namespace JuniWalk\ChartJS;
 
 interface Plugin
 {
+	public function setChart(Chart $chart): void;
 	public function getPath(): string;
-	public function getName(): ?string;
+	public function getName(): string;
+
+	/**
+	 * @return array<string, mixed>
+	 */
 	public function createConfig(): array;
 }

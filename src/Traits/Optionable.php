@@ -7,10 +7,15 @@
 
 namespace JuniWalk\ChartJS\Traits;
 
+use JuniWalk\ChartJS\Options;	// ! Used for @phpstan
 use JuniWalk\Utils\Arrays;
 
+/**
+ * @phpstan-require-implements Options
+ */
 trait Optionable
 {
+	/** @var array<string, mixed> */
 	protected array $options = [];
 
 
@@ -20,6 +25,9 @@ trait Optionable
 	}
 
 
+	/**
+	 * @param array<string, mixed> $options
+	 */
 	public function setOptions(array $options): void
 	{
 		$this->options = $options;
@@ -32,6 +40,9 @@ trait Optionable
 	}
 
 
+	/**
+	 * @return array<string, mixed>
+	 */
 	public function getOptions(): array
 	{
 		return Arrays::unflatten($this->options);

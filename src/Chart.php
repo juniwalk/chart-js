@@ -13,11 +13,11 @@ use JuniWalk\Utils\Enums\Color;
 use JuniWalk\Utils\Arrays;
 use JuniWalk\Utils\Json;
 use Nette\Application\UI\Control;
+use Nette\Bridges\ApplicationLatte\DefaultTemplate;
 
-final class Chart extends Control
+final class Chart extends Control implements Options
 {
 	use Traits\Optionable;
-	use Traits\Pluginable;
 	use Traits\Translatable;
 
 	protected DataSource $dataSource;
@@ -25,7 +25,13 @@ final class Chart extends Control
 	protected ?Color $color = null;
 	protected ?string $title = null;
 
+	/** @var array<string, Plugin> */
+	protected array $plugins = [];
 
+
+	/**
+	 * @param array<string, mixed> $options
+	 */
 	public function __construct(Type $type, array $options = [])
 	{
 		$this->dataSource = new DataSource;
@@ -76,6 +82,9 @@ final class Chart extends Control
 	}
 
 
+	/**
+	 * @param array<string> $labels
+	 */
 	public function setLabels(array $labels): void
 	{
 		$this->dataSource->setLabels($labels);
@@ -88,19 +97,38 @@ final class Chart extends Control
 	}
 
 
+	public function addAverage(DataSet $dataSet, bool $isShowLabelOnHover = false, ?callable $callback = null): Plugin
+	{
+		$plugin = new Plugins\AveragePlugin($dataSet, $callback);
+		$plugin->setLabelOnHover($isShowLabelOnHover);
+		return $this->addPlugin($plugin);
+	}
+
+
+	public function addPlugin(Plugin $plugin): Plugin
+	{
+		$plugin->setChart($this);
+		$path = $plugin->getPath();
+		$name = $plugin->getName();
+	
+		return $this->plugins[$path.'.'.$name] = $plugin;
+	}
+
+
 	public function render(): void
 	{
+		/** @var DefaultTemplate */
 		$template = $this->createTemplate();
 		$template->setFile(__DIR__.'/templates/default.latte');
-		$template->getLatte()->addFilter('json', function(mixed $s): string {
-			return Json::encode($s, Json::PRETTY);
-		});
+		$template->getLatte()->addFilter('json', fn($x) => Json::encode($x, Json::PRETTY));
 
-		$template->add('controlName', $this->getName());
-		$template->add('config', $this->createConfig());
-		$template->add('title', $this->title);
-		$template->add('color', $this->color ?? Color::Secondary);
-		$template->add('type', $this->type);
+		$template->setParameters([
+			'controlName' => $this->getName(),
+			'config' => $this->createConfig(),
+			'title' => $this->title,
+			'color' => $this->color ?? Color::Secondary,
+			'type' => $this->type,
+		]);
 
 		// any onBeforeRender callbacks?
 
@@ -108,13 +136,15 @@ final class Chart extends Control
 	}
 
 
+	/**
+	 * @return array{type: string, data: array<string, mixed>, options: array<string, mixed>}
+	 */
 	public function createConfig(): array
 	{
 		$this->dataSource->setTranslator($this->translator);
-		$options = $this->options;
+		$options = $this->getOptions();
 
 		foreach ($this->plugins as $path => $plugin) {
-			$plugin->setTranslator($this->translator);
 			$options[$path] = $plugin->createConfig();
 		}
 

@@ -7,21 +7,34 @@
 
 namespace JuniWalk\ChartJS\Plugins;
 
+use JuniWalk\ChartJS\Chart;
+use JuniWalk\ChartJS\Options;
 use JuniWalk\ChartJS\Plugin;
 use JuniWalk\ChartJS\Traits;
+use JuniWalk\Utils\Format;
 
-abstract class AbstractPlugin implements Plugin
+abstract class AbstractPlugin implements Plugin, Options
 {
 	use Traits\Optionable;
-	use Traits\Translatable;
+
+	protected Chart $chart;
 
 
-	public function getName(): ?string
+	public function setChart(Chart $chart): void
 	{
-		return null;
+		$this->chart = $chart;
 	}
 
 
+	public function getName(): string
+	{
+		return Format::className($this, suffix: 'Plugin');
+	}
+
+
+	/**
+	 * @return array<string, mixed>
+	 */
 	public function createConfig(): array
 	{
 		return $this->getOptions();

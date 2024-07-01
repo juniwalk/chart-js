@@ -8,9 +8,10 @@
 namespace JuniWalk\ChartJS\DataSets;
 
 use JuniWalk\ChartJS\DataSet;
+use JuniWalk\ChartJS\Options;
 use JuniWalk\ChartJS\Traits;
 
-abstract class AbstractDataSet implements DataSet
+abstract class AbstractDataSet implements DataSet, Options
 {
 	use Traits\Optionable;
 
@@ -21,6 +22,9 @@ abstract class AbstractDataSet implements DataSet
 	}
 
 
+	/**
+	 * @return array<string, mixed>
+	 */
 	public function createConfig(): array
 	{
 		return array_merge($this->getOptions(), [
@@ -29,5 +33,8 @@ abstract class AbstractDataSet implements DataSet
 	}
 
 
+	/**
+	 * @return array<array{key: string, value: int|float}>
+	 */
 	abstract protected function fetchData(): array;
 }
