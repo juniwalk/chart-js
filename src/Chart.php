@@ -26,7 +26,7 @@ final class Chart extends Control implements OptionHandler, EventHandler, LinkPr
 	use Actions, Events, Options, Links, Translation;
 
 	protected DataSource $dataSource;
-	protected ?Color $color = null;
+	protected Color $color;
 	protected ?string $title = null;
 
 	/** @var array<string, Plugin> */
@@ -58,15 +58,15 @@ final class Chart extends Control implements OptionHandler, EventHandler, LinkPr
 	}
 
 
-	public function setColor(?Color $color): void
+	public function setColor(Color $color): void
 	{
 		$this->color = $color;
 	}
 
 
-	public function getColor(): ?Color
+	public function getColor(): Color
 	{
-		return $this->color;
+		return $this->color ?? Color::Secondary;
 	}
 
 
@@ -131,8 +131,8 @@ final class Chart extends Control implements OptionHandler, EventHandler, LinkPr
 			'controlName' => $this->getName(),
 			'actions' => $this->getActions(),
 			'config' => $this->createConfig(),
+			'color' => $this->getColor(),
 			'title' => $this->title,
-			'color' => $this->color ?? Color::Secondary,
 			'type' => $this->type,
 		]);
 
