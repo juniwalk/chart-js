@@ -129,6 +129,7 @@ final class Chart extends Control implements OptionHandler, EventHandler, LinkPr
 
 		$template->setParameters([
 			'controlName' => $this->getName(),
+			'actions' => $this->getActions(),
 			'config' => $this->createConfig(),
 			'title' => $this->title,
 			'color' => $this->color ?? Color::Secondary,
