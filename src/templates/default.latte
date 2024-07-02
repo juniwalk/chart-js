@@ -4,7 +4,7 @@
 
 		<h3 class="card-title" n:if="$title">{$title|translate|noescape}</h3>
 
-		<div class="card-tools btn-toolbar mt-n1 d-flex" role="toolbar" n:snippet="toolbar" n:ifcontent>
+		<div class="card-tools btn-toolbar mt-n1 d-flex" role="toolbar" n:snippet="toolbar">
 
 			<div n:snippet="actions">
 				<div n:ifcontent n:inner-foreach="$actions as $action">
