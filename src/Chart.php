@@ -38,9 +38,10 @@ final class Chart extends Control implements OptionHandler, EventHandler, LinkPr
 	 */
 	public function __construct(
 		protected Type $type,
-		protected array $options = [],
+		array $options = [],
 	) {
 		$this->dataSource = new DataSource;
+		$this->setOptions($options);
 		$this->watch('render');
 	}
 
