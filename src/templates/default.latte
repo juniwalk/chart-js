@@ -1,11 +1,17 @@
 <div class="card {$color->for('card')} card-outline">
 
-	<div class="card-header with-border" n:if="$title">
+	<div class="card-header with-border" n:ifcontent>
 
-		<h3 class="card-title">{$title|translate|noescape}</h3>
+		<h3 class="card-title" n:if="$title">{$title|translate|noescape}</h3>
 
-		<div class="card-tools btn-toolbar mt-n1" n:ifcontent n:inner-foreach="$tools as $tool">
-			{$tool->render()}
+		<div class="card-tools btn-toolbar mt-n1 d-flex" role="toolbar" n:snippet="toolbar" n:ifcontent>
+
+			<div n:snippet="actions">
+				<div n:ifcontent n:inner-foreach="$actions as $action">
+					{control $action}
+				</div>
+			</div>
+
 		</div>
 
 	</div>
