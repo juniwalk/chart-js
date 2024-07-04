@@ -11,14 +11,13 @@ use Stringable;
 
 /**
  * @phpstan-type KeyValuePairs array<array{key: string, value: int|float}>
- * @phpstan-type DataStructure array{data: array<string, int|float>|KeyValuePairs, label?: string|Stringable}
  */
 interface DataSet extends OptionHandler
 {
 	public function getAverage(): float;
 
 	/**
-	 * @return DataStructure
+	 * @return array{data: array<string, int|float>|KeyValuePairs, label?: string|Stringable}
 	 */
 	public function createConfig(): array;
 }
