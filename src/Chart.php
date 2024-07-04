@@ -21,6 +21,9 @@ use JuniWalk\Utils\Traits\Events;
 use Nette\Application\UI\Control;
 use Nette\Bridges\ApplicationLatte\DefaultTemplate;
 
+/**
+ * @phpstan-import-type DataStructure from DataSource
+ */
 final class Chart extends Control implements OptionHandler, EventHandler, LinkProvider
 {
 	use Actions, Events, Options, Links, Translation;
@@ -141,7 +144,7 @@ final class Chart extends Control implements OptionHandler, EventHandler, LinkPr
 
 
 	/**
-	 * @return array{type: string, data: array<string, mixed>, options: array<string, mixed>}
+	 * @return array{type: string, data: DataStructure, options: array<string, mixed>}
 	 */
 	public function createConfig(): array
 	{

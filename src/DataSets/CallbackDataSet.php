@@ -8,7 +8,11 @@
 namespace JuniWalk\ChartJS\DataSets;
 
 use Closure;
+use JuniWalk\ChartJS\DataSet;
 
+/**
+ * @phpstan-import-type KeyValuePairs from DataSet
+ */
 class CallbackDataSet extends AbstractDataSet
 {
 	public function __construct(
@@ -20,7 +24,7 @@ class CallbackDataSet extends AbstractDataSet
 
 
 	/**
-	 * @return array<array{key: string, value: int|float}>
+	 * @return KeyValuePairs
 	 */
 	protected function fetchData(): array
 	{

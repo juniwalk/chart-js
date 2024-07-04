@@ -11,6 +11,9 @@ use JuniWalk\ChartJS\DataSet;
 use JuniWalk\ChartJS\OptionHandler;
 use JuniWalk\ChartJS\Traits\Options;
 
+/**
+ * @phpstan-import-type KeyValuePairs from DataSet
+ */
 abstract class AbstractDataSet implements DataSet, OptionHandler
 {
 	use Options;
@@ -23,10 +26,11 @@ abstract class AbstractDataSet implements DataSet, OptionHandler
 
 
 	/**
-	 * @return array<string, mixed>
+	 * @return array{data: KeyValuePairs}
 	 */
 	public function createConfig(): array
 	{
+		/** @var array{data: KeyValuePairs} */
 		return array_merge($this->getOptions(), [
 			'data' => $this->fetchData(),
 		]);
@@ -34,7 +38,7 @@ abstract class AbstractDataSet implements DataSet, OptionHandler
 
 
 	/**
-	 * @return array<array{key: string, value: int|float}>
+	 * @return KeyValuePairs
 	 */
 	abstract protected function fetchData(): array;
 }

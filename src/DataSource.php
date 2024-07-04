@@ -8,7 +8,18 @@
 namespace JuniWalk\ChartJS;
 
 use JuniWalk\ChartJS\Traits\Translation;
+use Stringable;
 
+/**
+ * @phpstan-import-type KeyValuePairs from DataSet
+ * @phpstan-type DataStructure array{
+ * 		labels: array<string|Stringable>,
+ * 		datasets: array<array{
+ * 			data: array<float|int>,
+ * 			label?: string|Stringable
+ * 		}>
+ * }
+ */
 class DataSource
 {
 	use Translation;
@@ -16,12 +27,12 @@ class DataSource
 	/** @var array<string, DataSet> */
 	protected array $dataSets = [];
 
-	/** @var array<string> */
+	/** @var array<string|Stringable> */
 	protected array $labels = [];
 
 
 	/**
-	 * @param array<string> $labels
+	 * @param array<string|Stringable> $labels
 	 */
 	public function setLabels(array $labels): void
 	{
@@ -42,7 +53,7 @@ class DataSource
 
 
 	/**
-	 * @return array<string, mixed>
+	 * @return DataStructure
 	 */
 	public function createConfig(): array
 	{
@@ -71,7 +82,7 @@ class DataSource
 
 
 	/**
-	 * @param  array<string, int|float>|array<array{key: string, value: int|float}> $data
+	 * @param  array<string, int|float>|KeyValuePairs $data
 	 * @return array<int|float>
 	 */
 	protected function parse(array $data): array

@@ -7,10 +7,15 @@
 
 namespace JuniWalk\ChartJS\DataSets;
 
+use JuniWalk\ChartJS\DataSet;
+
+/**
+ * @phpstan-import-type KeyValuePairs from DataSet
+ */
 class ArrayDataSet extends AbstractDataSet
 {
 	/**
-	 * @param array<array{key: string, value: int|float}> $data
+	 * @param KeyValuePairs $data
 	 */
 	public function __construct(
 		string $label,
@@ -27,7 +32,7 @@ class ArrayDataSet extends AbstractDataSet
 
 
 	/**
-	 * @return array<array{key: string, value: int|float}>
+	 * @return KeyValuePairs
 	 */
 	protected function fetchData(): array
 	{
