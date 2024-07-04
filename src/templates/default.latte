@@ -1,4 +1,4 @@
-<div class="card {$color->for('card')} card-outline">
+<div class="card {$color->for('card')} card-outline" n:snippet="chart">
 
 	<div class="card-header with-border" n:ifcontent>
 
@@ -22,7 +22,7 @@
 		</div>
 	</div>
 
-	<script type="text/javascript" defer>
+	<script type="text/javascript" defer n:snippet="payload">
 	document.addEventListener("DOMContentLoaded", function() {
 		var context = $("#chart-"+{$controlName}).get(0).getContext('2d');
 		var chart = new Chart(context, {$config|json|noescape});
