@@ -22,11 +22,15 @@
 		</div>
 	</div>
 
-	<script type="text/javascript" defer n:snippet="payload">
-	document.addEventListener("DOMContentLoaded", function() {
-		var context = $("#chart-"+{$controlName}).get(0).getContext('2d');
-		var chart = new Chart(context, {$config|json|noescape});
-	});
+	<script type="text/javascript" n:snippet="payload">
+		var element = document.getElementById('chart-'+{$controlName});
+		var chart = () => new Chart(element.getContext('2d'), {$config|json|noescape});
+
+		if ({$control->isControlInvalid()}) {
+			chart();
+		}
+
+		document.addEventListener('DOMContentLoaded', () => chart());
 	</script>
 
 </div>
