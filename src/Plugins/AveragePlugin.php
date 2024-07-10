@@ -79,7 +79,7 @@ class AveragePlugin extends AnnotationPlugin
 				'display' => !$this->isLabelOnHover,
 				'position' => 'end',
 				'backgroundColor' => 'rgba(0, 0, 0, 0.75)',
-				'content' => $this->callback->call($this, $average),
+				'content' => ($this->callback)($average),
 				'drawTime' => 'afterDraw',
 			]);
 		}
