@@ -23,14 +23,16 @@
 	</div>
 
 	<script type="text/javascript" n:snippet="payload">
-		var element = document.getElementById('chart-'+{$controlName});
-		var chart = () => new Chart(element.getContext('2d'), {$config|json|noescape});
+		(function() {
+			let element = document.getElementById('chart-'+{$controlName}).getContext('2d');
+			let chart = () => new Chart(element, {$config|json|noescape});
 
-		if ({$control->isControlInvalid()}) {
-			chart();
-		}
+			if ({$control->isControlInvalid()}) {
+				chart();
+			}
 
-		document.addEventListener('DOMContentLoaded', () => chart());
+			document.addEventListener('DOMContentLoaded', chart);
+		})();
 	</script>
 
 </div>
