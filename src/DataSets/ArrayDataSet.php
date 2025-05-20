@@ -18,7 +18,7 @@ class ArrayDataSet extends AbstractDataSet
 	 * @param KeyValuePairs $data
 	 */
 	public function __construct(
-		string $label,
+		string|int|float $label,
 		protected array $data = [],
 	) {
 		$this->setOption('label', $label);

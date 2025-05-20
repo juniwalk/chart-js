@@ -18,7 +18,6 @@ abstract class AbstractDataSet implements DataSet, OptionHandler
 {
 	use Options;
 
-
 	public function getAverage(): float
 	{
 		return 0;

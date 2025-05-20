@@ -16,7 +16,7 @@ use JuniWalk\ChartJS\DataSet;
 class CallbackDataSet extends AbstractDataSet
 {
 	public function __construct(
-		string $label,
+		string|int|float $label,
 		protected Closure $callback,
 	) {
 		$this->setOption('label', $label);
