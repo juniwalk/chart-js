@@ -100,7 +100,7 @@ final class Chart extends Control implements OptionHandler, EventHandler, LinkPr
 	}
 
 
-	public function setDataSet(string $key, DataSet $dataSet): void
+	public function setDataSet(string|int|float $key, DataSet $dataSet): void
 	{
 		$this->dataSource->setDataSet($key, $dataSet);
 	}
