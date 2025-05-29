@@ -13,10 +13,10 @@ use Stringable;
 /**
  * @phpstan-import-type KeyValuePairs from DataSet
  * @phpstan-type DataStructure array{
- * 		labels: array<string|Stringable>,
+ * 		labels: array<string|int|float|Stringable>,
  * 		datasets: array<array{
  * 			data: array<float|int>,
- * 			label?: string|Stringable
+ * 			label?: string|int|float|Stringable
  * 		}>
  * }
  */
@@ -27,12 +27,12 @@ class DataSource
 	/** @var array<string|int|float, DataSet> */
 	protected array $dataSets = [];
 
-	/** @var array<string|Stringable> */
+	/** @var array<string|int|float|Stringable> */
 	protected array $labels = [];
 
 
 	/**
-	 * @param array<string|Stringable> $labels
+	 * @param array<string|int|float|Stringable> $labels
 	 */
 	public function setLabels(array $labels): void
 	{

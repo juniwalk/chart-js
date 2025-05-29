@@ -31,7 +31,7 @@ trait Translation
 	/**
 	 * @param array<string, string> $params
 	 */
-	protected function translate(string|Stringable $value, array $params = []): string|Stringable
+	protected function translate(string|int|float|Stringable $value, array $params = []): string|Stringable
 	{
 		$value = (string) $value;
 
