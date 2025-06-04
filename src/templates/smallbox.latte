@@ -4,10 +4,10 @@
 			{$title|translate|stripHtml}
 			<span n:if="$subtitle"> / <small>{$subtitle|translate|noescape}</small></span>
 		</span>
-		<h4 class="m-0 font-weight-bold">
+		<h4 class="m-0 font-weight-bold fw-bold">
 			{$count|noescape}
 			<small n:if="$unit"> {$unit|translate|noescape}</small>
 		</h4>
 	</div>
-	<div class="icon" n:ifcontent>{$icon|icon:true,'watermark'}</div>
+	<div class="small-box-icon icon" n:ifcontent>{$icon|icon:true,'watermark'}</div>
 </div>
