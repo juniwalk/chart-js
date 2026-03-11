@@ -31,6 +31,7 @@ final class Chart extends Control implements OptionHandler, EventHandler, LinkPr
 	protected DataSource $dataSource;
 	protected Color $color;
 	protected ?string $title = null;
+	protected int|float $height = 300;
 
 	/** @var array<string, Plugin> */
 	protected array $plugins = [];
@@ -70,6 +71,18 @@ final class Chart extends Control implements OptionHandler, EventHandler, LinkPr
 	public function getColor(): Color
 	{
 		return $this->color ?? Color::Secondary;
+	}
+
+
+	public function setHeight(int|float $height): void
+	{
+		$this->height = $height;
+	}
+
+
+	public function getHeight(): int|float
+	{
+		return $this->height;
 	}
 
 
@@ -135,6 +148,7 @@ final class Chart extends Control implements OptionHandler, EventHandler, LinkPr
 			'actions' => $this->getActions(),
 			'config' => $this->createConfig(),
 			'color' => $this->getColor(),
+			'height' => $this->height,
 			'title' => $this->title,
 			'type' => $this->type,
 		]);

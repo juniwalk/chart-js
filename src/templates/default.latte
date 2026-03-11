@@ -18,7 +18,7 @@
 
 	<div class="card-body">
 		<div class="chart-responsive">
-			<canvas id="chart-{$controlName}" style="height: 300px;"></canvas>
+			<canvas id="chart-{$controlName}" n:attr="style: $height ? 'min-height: '.$height.'px;'"></canvas>
 		</div>
 	</div>
 
