@@ -104,6 +104,12 @@ final class Chart extends Control implements OptionHandler, EventHandler, LinkPr
 	}
 
 
+	public function getDataSource(): DataSource
+	{
+		return $this->dataSource;
+	}
+
+
 	/**
 	 * @param array<string> $labels
 	 */
