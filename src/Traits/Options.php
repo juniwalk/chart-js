@@ -34,6 +34,15 @@ trait Options
 	}
 
 
+	/**
+	 * @param array<string, mixed> $options
+	 */
+	public function addOptions(array $options): void
+	{
+		$this->options = array_merge($this->options, $options);
+	}
+
+
 	public function getOption(string $key): mixed
 	{
 		return $this->options[$key] ?? null;
