@@ -110,6 +110,12 @@ final class Chart extends Control implements OptionHandler, EventHandler, LinkPr
 	}
 
 
+	public function getDataSet(string|int|float $name): ?DataSet
+	{
+		return $this->dataSource->getDataSet($name);
+	}
+
+
 	/**
 	 * @param array<string> $labels
 	 */
