@@ -24,7 +24,7 @@ class DataSource
 {
 	use Translation;
 
-	/** @var array<string|int|float, DataSet> */
+	/** @var array<string|int, DataSet> */
 	protected array $dataSets = [];
 
 	/** @var array<string|int|float|Stringable> */
@@ -42,12 +42,20 @@ class DataSource
 
 	public function setDataSet(string|int|float $name, DataSet $dataSet): void
 	{
+		if (is_float($name)) {
+			$name = (string) $name;
+		}
+
 		$this->dataSets[$name] = $dataSet;
 	}
 
 
 	public function getDataset(string|int|float $name): ?DataSet
 	{
+		if (is_float($name)) {
+			$name = (string) $name;
+		}
+
 		return $this->dataSets[$name] ?? null;
 	}
 
