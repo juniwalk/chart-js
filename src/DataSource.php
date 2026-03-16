@@ -50,7 +50,7 @@ class DataSource
 	}
 
 
-	public function getDataset(string|int|float $name): ?DataSet
+	public function getDataSet(string|int|float $name): ?DataSet
 	{
 		if (is_float($name)) {
 			$name = (string) $name;
