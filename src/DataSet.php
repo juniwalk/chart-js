@@ -7,6 +7,7 @@
 
 namespace JuniWalk\ChartJS;
 
+use Closure;
 use Stringable;
 
 /**
@@ -14,6 +15,10 @@ use Stringable;
  */
 interface DataSet extends OptionHandler
 {
+	/**
+	 * @param Closure(self): float $callback
+	 */
+	public function setAverageCallback(Closure $callback): void;
 	public function getAverage(): float;
 
 	/**

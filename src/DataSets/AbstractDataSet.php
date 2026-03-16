@@ -7,6 +7,7 @@
 
 namespace JuniWalk\ChartJS\DataSets;
 
+use Closure;
 use JuniWalk\ChartJS\DataSet;
 use JuniWalk\ChartJS\OptionHandler;
 use JuniWalk\ChartJS\Traits\Options;
@@ -18,9 +19,19 @@ abstract class AbstractDataSet implements DataSet, OptionHandler
 {
 	use Options;
 
+	protected Closure $averageCallback;
+
+
+	public function setAverageCallback(Closure $callback): void
+	{
+		$this->averageCallback = $callback;
+	}
+
+
 	public function getAverage(): float
 	{
-		return 0;
+		$callback = $this->averageCallback ?? fn(self $dataSet): float => 0;
+		return $callback($this);
 	}
 
 

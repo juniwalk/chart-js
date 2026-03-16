@@ -27,7 +27,11 @@ class ArrayDataSet extends AbstractDataSet
 
 	public function getAverage(): float
 	{
-		return array_sum($this->data) / sizeof($this->data);
+		$callback = $this->averageCallback ?? function(self $dataSet): float {
+			return array_sum($this->data) / sizeof($this->data);
+		};
+
+		return $callback($this);
 	}
 
 
